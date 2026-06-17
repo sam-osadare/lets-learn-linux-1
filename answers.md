@@ -124,7 +124,6 @@ Instead of typing separate commands for each directory, Bash expanded the patter
 ### Could you have done this without it — and would you want to?
 
 Yes. I could have created the directories individually, for example:
-```bash
 mkdir -p ~/projects/cyphercore/configs
 mkdir -p ~/projects/cyphercore/reports
 mkdir -p ~/projects/cyphercore/logs/access
