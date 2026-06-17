@@ -307,7 +307,7 @@ Abena: "Put those into the access log. One at a time. Do not overwrite the file.
     *	>> redirects output to a file and appends to the existing content
 **So:**
     *	`>` = destructive overwrite
-    *	>> = safe append
+    *	`>>` = safe append
 
 **Prove it:**
 **access.log** file (~/projects/cyphercore/logs/access/access.log) contains information/data in the image below:
@@ -318,7 +318,7 @@ Now overwrite it – access.log by adding `>` to the command:
 
 **Now overwrite it – access.log by adding `>` the command:**
 
-`echo "Testing > function/power" > ~/projects/cyphercore/logs/access/access.log`
+* `echo "Testing > function/power" > ~/projects/cyphercore/logs/access/access.log`
 
 **Confirm the output of the operation using cat command:**
 
