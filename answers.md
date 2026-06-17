@@ -98,11 +98,11 @@ A file is hidden in Linux when its name begins with a dot (**`.`**). Hidden file
 
 ### Which flag did you use, and what does it do?
 
-I used the **-p** flag with the mkdir command.
+I used the `-p` flag with the `mkdir` command.
 The **-p** flag tells mkdir to create parent directories as needed. If intermediate directories do not already exist, they are created automatically. It also prevents errors if a directory already exists.
 
-**Example:** _mkdir -p ~/projects/cyphercore/logs/access_
-This creates all missing directories in the path at once.
+**Example:** `mkdir -p ~/projects/cyphercore/logs/access`
+- This creates all missing directories in the path at once.
 
 ---
 
@@ -112,7 +112,7 @@ Brace expansion is a Bash feature that generates multiple strings from a single 
 
 **For example:**
 `echo {a,b,c}`
-produces:
+**produces:**
 `a b c`
 
 In this task, brace expansion allowed me to create several directories with one command: `mkdir -p ~/projects/cyphercore/{configs,reports,logs/{access,errors,archive}}`
@@ -655,47 +655,52 @@ This helps prevent accidental deletion of critical data on production systems.
 
 **Q14: Task: Display the full tree of ~/projects/cyphercore.**
 
-Command: tree ~/projects/cyphercore
+**Command:** 
+`tree ~/projects/cyphercore`
 
 <img width="940" height="436" alt="image" src="https://github.com/user-attachments/assets/82f7075d-b59d-4956-a602-fbc7ab23e146" />
 
-**Does the structure match Abena's original sticky note?**
-Yes, the core directory structure matches Abena's original design.
-Throughout the exercises, files were added inside these directories, such as configuration files, log files, archived logs, and reports. The overall directory layout remains consistent with the original structure while now containing realistic project data.
+### Does the structure match Abena's original sticky note?
+Yes, the core directory structure matches Abena's original design. Throughout the exercises, files were added inside these directories, such as configuration files, log files, archived logs, and reports. The overall directory layout remains consistent with the original structure while now containing realistic project data.
 
-**Why does a clean, predictable directory structure matter for automation scripts?**
-Automation scripts often rely on fixed paths.
-For example, backup_script.sh may expect logs to exist in logs/access/ & logs/errors/.
-If files are moved or stored in unexpected locations, the script may fail or miss important data. A predictable structure makes scripts easier to write, maintain, and troubleshoot.
+### Why does a clean, predictable directory structure matter for automation scripts?
+Automation scripts often rely on fixed paths. For example, `backup_script.sh` may expect logs to exist in `logs/access/` and `logs/errors/`. If files are moved or stored in unexpected locations, the script may fail or miss important data. A predictable structure makes scripts easier to write, maintain, and troubleshoot.
 
-**Why does it matter for log agents?**
-Log collection tools such as Logstash, Fluent Bit, Fluentd, and other monitoring agents are typically configured to watch specific directories. Example: /var/log/application/*.log
+### Why does it matter for log agents?
+Log collection tools such as Logstash, Fluent Bit, Fluentd, and other monitoring agents are typically configured to watch specific directories.  
+
+**Example:** `/var/log/application/*.log`
+
 If logs are scattered across different locations, the agent may not collect them, causing gaps in monitoring and alerting.
 A consistent structure ensures logs are discovered and processed correctly.
 
-**Why does it matter for security monitoring tools?**
-Security monitoring and SIEM platforms depend on known file locations to detect suspicious activity.
-Examples include:
-    •	Monitoring authentication logs
-    •	Detecting unauthorized file changes
-    •	Tracking application errors
-    •	Investigating security incidents
+### Why does it matter for security monitoring tools?
+Security monitoring and SIEM platforms depend on known file locations to detect suspicious activity. 
+
+**Examples include:**
+* Monitoring authentication logs
+* Detecting unauthorized file changes
+* Tracking application errors
+* Investigating security incidents
+
 **When files follow a standard structure:**
-    •	Security rules are easier to configure
-    •	Incident investigations are faster
-    •	Compliance audits are simpler
-    •	Unauthorized changes are easier to identify
+* Security rules are easier to configure
+* Incident investigations are faster
+* Compliance audits are simpler
+* Unauthorized changes are easier to identify
+
 A clean and predictable directory structure improves reliability, automation, security visibility, and operational efficiency across the entire system.
 
-**Q15: Task: Write three lines into configs/db.conf:** 
+# Q15: Task: Write three lines into configs/db.conf: 
     DB_HOST=10.0.0.10
     DB_PORT=5432
     DB_NAME=cyphercore_prod
 **Command:** 
-    cat << ‘EOF’ > ~/projects/cyphercore/configs/db.conf ¬\
+    `cat << ‘EOF’ > ~/projects/cyphercore/configs/db.conf ¬\
     >DB_HOST=10.0.0.10
     >DB_PORT=5432
     >DB_NAME=cyphercore_prod
+	EOF`
 
 <img width="940" height="288" alt="image" src="https://github.com/user-attachments/assets/3fa47105-cf8c-420d-b75f-0674d471bd91" />
 
@@ -736,44 +741,49 @@ When `db.conf` was deleted, only one directory entry was removed. The inode and 
 
 **Check ls -li again — what changed in the link count?** 
 Before deleting `db.conf`, the inode link count was 2 because two directory entries were pointing to the same inode.
-After deleting db.conf, running _ls -li_ showed:
-    • The inode number remained the same.
-    • The link count decreased from 2 to 1.
+After deleting db.conf, running `ls -li` showed:
+    * The inode number remained the same.
+    * The link count decreased from 2 to 1.
 This indicates that one reference was removed, but the inode is still in use.
 
 <img width="940" height="140" alt="image" src="https://github.com/user-attachments/assets/e62de9b9-40f7-4854-832a-4cf20cd0e4da" />
 
 **What would need to happen for the data to be permanently deleted?**
 The data would only be deleted when:
-    • All hard links to the inode are removed (link count reaches 0), and
-    • No running process still has the file open.
+    * All hard links to the inode are removed (link count reaches 0), and
+    * No running process still has the file open.
 At that point, the filesystem can free the inode and release the data blocks
 
 **How could an attacker use hard links to hide data on a compromised system?**
 An attacker could create hard links to sensitive files and then delete the original filenames. Administrators might believe the files were removed, but the data would still exist through the hidden hard links. This technique can be used to conceal malicious files, maintain persistence, or make forensic investigations more difficult because the data remains accessible until every hard link is removed.
 
 **Q17**: **Task: Write some content into configs/app.conf**
-Command: _echo “application_port=8080" > ~/projects/cyphercore/configs/app.conf_
+**Command:** 
+`echo “application_port=8080" > ~/projects/cyphercore/configs/app.conf`
 
 <img width="940" height="126" alt="image" src="https://github.com/user-attachments/assets/0d51f9e8-d280-4f31-8ba0-7877e149a8ff" />
 
 **Create a symbolic link to it inside ~/projects/cyphercore/ named app_config_link**
-Command: _ln -s ~/projects/cyphercore/configs/app.conf ~/projects/cyphercore/app_config_link_
+**Command:** 
+`ln -s ~/projects/cyphercore/configs/app.conf ~/projects/cyphercore/app_config_link`
 
 <img width="940" height="65" alt="image" src="https://github.com/user-attachments/assets/5714ae0c-0dc0-4f29-9de1-a182b5a37ad2" />
 
 **List ~/projects/cyphercore/ showing full details including link targets**
-Command: _ls -l ~/projects/cyphercore_
+**Command:** 
+`ls -l ~/projects/cyphercore`
 
 <img width="940" height="171" alt="image" src="https://github.com/user-attachments/assets/cbda4390-8cce-4527-90ef-cd18aab56ba2" />
 
 **Delete the original app.conf and try to read the symlink**
-Command: _rm ~/projects/cyphercore/configs/app.conf_
+**Command:** 
+`rm ~/projects/cyphercore/configs/app.conf`
 
 <img width="940" height="187" alt="image" src="https://github.com/user-attachments/assets/bd31d82b-257d-458c-94c5-28c0da03221d" />
 
-Reading the symlink:
-Command: _cat ~/projects/cyphercore/app_config_link_
+**Reading the symlink:**
+**Command:** 
+`cat ~/projects/cyphercore/app_config_link`
 
 <img width="940" height="82" alt="image" src="https://github.com/user-attachments/assets/3837d608-c0a3-425d-a67a-08b24a6eb8a2" />
 
@@ -781,16 +791,17 @@ Command: _cat ~/projects/cyphercore/app_config_link_
 
 <img width="940" height="187" alt="image" src="https://github.com/user-attachments/assets/f595ed52-3844-4b94-b6fb-65116ab7a282" />
 
-The character **_l_** at the beginning of the permissions field identifies a symbolic link. 
-For example:
-lrwxrwxrwx 1 sirosaubun sirosaubun...
-The **_l_** indicates that the file is a symlink rather than a regular file or directory.
+The character `l` at the beginning of the permissions field identifies a symbolic link. 
+**For example:**
+_lrwxrwxrwx 1 sirosaubun sirosaubun..._
+The `l` indicates that the file is a symlink rather than a regular file or directory.
 
 **What happened when you read the broken link — what is this called?**
 
 After deleting the original app.conf file, attempting to read the symbolic link failed with a "No such file or directory" error because the symlink still pointed to the original path, but the target file no longer existed.
 
 <img width="940" height="82" alt="image" src="https://github.com/user-attachments/assets/29712b58-0143-474d-a615-8e767a1d1911" />
+
 This is called a dangling symlink or broken symlink.
 
 **Why does a dangling symlink in a deployment pipeline cause failures that are hard to debug at 2 AM?**
