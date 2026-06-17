@@ -1,6 +1,10 @@
 # Lets-Learn-Linux-1
 
 ## ParoCyber DevSecOps Bootcamp — Lab 01/Assignment
+
+**Author:** Samuel Osadare  
+**Date:** June 2026
+
 A comprehensive hands-on lab focused on mastering the Linux command-line interface (CLI) from a DevSecOps perspective. This repository contains the completed tasks, terminal workflows, and security concepts covered during the assignment.
 
 ## Lab Overview
