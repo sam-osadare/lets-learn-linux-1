@@ -292,22 +292,22 @@ Abena: "Put those into the access log. One at a time. Do not overwrite the file.
 
 **Each command is to be run separately:**
 
-`echo "2025-06-02 08:14:33 INFO Application started successfully" >> ~/projects/cyphercore/logs/access/access.log`
-`echo "2025-06-02 08:14:55 WARN High memory usage detected: 87%" >> ~/projects/cyphercore/logs/access/access.log`
-`echo "2025-06-02 08:15:10 ERROR Database connection timeout — retrying (attempt 1/3)" >> ~/projects/cyphercore/logs/access/access.log`
+* `echo "2025-06-02 08:14:33 INFO Application started successfully" >> ~/projects/cyphercore/logs/access/access.log`
+* `echo "2025-06-02 08:14:55 WARN High memory usage detected: 87%" >> ~/projects/cyphercore/logs/access/access.log`
+* `echo "2025-06-02 08:15:10 ERROR Database connection timeout — retrying (attempt 1/3)" >> ~/projects/cyphercore/logs/access/access.log`
 
-**Command for read back to confirm the operation:**
+**Command for reading back to confirm the operation:**
 `cat ~/projects/cyphercore/logs/access/access.log`
 
 <img width="940" height="251" alt="image" src="https://github.com/user-attachments/assets/f0290c37-e26b-4f1d-87bb-eb4b6171be5e" />
 
 **What is the difference between `>` and `>>`?**
 
-    *	`>` redirects output to a file and overwrites the file completely
-    *	`>>` redirects output to a file and appends to the existing content
+    *	> redirects output to a file and overwrites the file completely
+    *	>> redirects output to a file and appends to the existing content
 **So:**
     *	`>` = destructive overwrite
-    *	`>>` = safe append
+    *	>> = safe append
 
 **Prove it:**
 **access.log** file (~/projects/cyphercore/logs/access/access.log) contains information/data in the image below:
@@ -331,6 +331,7 @@ Only the newly added text – “Testing > function/power” remains in the acce
 **Restore the file:**
 
 To restore, you must re-add the missing log lines manually or from backup:
+
 `echo "2025-06-02 08:14:33 INFO  Application started successfully" >> ~/projects/cyphercore/logs/access/access.log`
 `echo "2025-06-02 08:14:55 WARN  High memory usage detected: 87%" >> ~/projects/cyphercore/logs/access/access.log`
 `echo "2025-06-02 08:15:10 ERROR Database connection timeout — retrying (attempt 1/3)" >> ~/projects/cyphercore/logs/access/access.log`
@@ -342,10 +343,10 @@ Output command: `cat ~/projects/cyphercore/logs/access/access.log`
 **Why is confusing `>` and `>>` dangerous in production log rotation scripts?**
 
 In production systems, logs are critical for debugging and auditing. Accidentally using `>` instead of `>>` can:
-    *	Erase active logs containing important incident data
-    *	Remove evidence needed for security investigations
-    •	Break monitoring and alerting systems that depend on log history
-    •	Cause loss of compliance/audit records
+	* Erase active logs containing important incident data
+	* Remove evidence needed for security investigations
+	* Break monitoring and alerting systems that depend on log history
+    * Cause loss of compliance/audit records
 In log rotation scripts, this mistake is especially dangerous because logs are often automatically managed. One wrong redirect operator can wipe out real-time system history without any warning.
 
 **Q9: Task: Display the access log using two different reading commands — one from top to bottom, one from bottom to top.**
@@ -359,7 +360,7 @@ In log rotation scripts, this mistake is especially dangerous because logs are o
 * `cat` prints the file from top to bottom (oldest to newest lines).
 * `tac` prints the file from bottom to top (newest to oldest lines).
 
-They show the same data but in opposite order.
+They show the same data but in the opposite order.
 
 ### In a real incident (80,000 lines), which do you reach for first?
 In a real incident, I would reach for the bottom of the file first using tools like `tac` or `tail`, because:
@@ -380,8 +381,8 @@ Logs grow over time, so reading everything is inefficient. Tools like `tail` and
 ---
 
 9:42 AM. Abena: "Now the error log — four lines. Don't use echo four times. Write it the way you'd write it in a script."  
-She gives Kofi the entries:  
-```text
+* She gives Kofi the entries:  
+
 2025-06-02 08:15:10 ERROR    Database connection timeout — retrying (attempt 1/3)
 2025-06-02 08:15:13 ERROR    Database connection timeout — retrying (attempt 2/3)
 2025-06-02 08:15:16 CRITICAL Database connection failed — all retries exhausted
@@ -392,11 +393,11 @@ She gives Kofi the entries:
 
 **Command run operation:** 
 `cat <<  'EOF'  > ~/projects/cyphercore/logs/errors/error.log
-2025-06-02 08:15:10 ERROR    Database connection timeout — retrying (attempt 1/3)
-2025-06-02 08:15:13 ERROR    Database connection timeout — retrying (attempt 2/3)
-2025-06-02 08:15:16 CRITICAL Database connection failed — all retries exhausted
-2025-06-02 08:15:16 CRITICAL Triggering failover to secondary DB at 10.0.0.52
-EOF`
+ 2025-06-02 08:15:10 ERROR    Database connection timeout — retrying (attempt 1/3)
+ 2025-06-02 08:15:13 ERROR    Database connection timeout — retrying (attempt 2/3)
+ 2025-06-02 08:15:16 CRITICAL Database connection failed — all retries exhausted
+ 2025-06-02 08:15:16 CRITICAL Triggering failover to secondary DB at 10.0.0.52
+ EOF`
 
 💡 Hint: A heredoc starts with << and a delimiter word (e.g., EOF). Everything between the opening and closing delimiters is written as-is. The closing delimiter must be alone on its line.
 
@@ -418,8 +419,8 @@ Example:
       EOF`
 **Compared to multiple echo commands, a heredoc:**
       *	`Is` easier to read and maintain
-      •	Reduces repetitive commands
-      •	Preserves formatting exactly
+      *	Reduces repetitive commands
+      *	Preserves formatting exactly
       •	`Is`is commonly used in scripts to generate configuration files, logs, and templates
 
 **What is the difference between 'EOF' (quoted) and EOF (unquoted)?**
