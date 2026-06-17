@@ -757,7 +757,8 @@ At that point, the filesystem can free the inode and release the data blocks
 **How could an attacker use hard links to hide data on a compromised system?**
 An attacker could create hard links to sensitive files and then delete the original filenames. Administrators might believe the files were removed, but the data would still exist through the hidden hard links. This technique can be used to conceal malicious files, maintain persistence, or make forensic investigations more difficult because the data remains accessible until every hard link is removed.
 
-**Q17**: **Task: Write some content into configs/app.conf**
+**Q17:** 
+### Task: Write some content into configs/app.conf
 **Command:** 
 `echo “application_port=8080" > ~/projects/cyphercore/configs/app.conf`
 
@@ -769,13 +770,13 @@ An attacker could create hard links to sensitive files and then delete the origi
 
 <img width="940" height="65" alt="image" src="https://github.com/user-attachments/assets/5714ae0c-0dc0-4f29-9de1-a182b5a37ad2" />
 
-**List ~/projects/cyphercore/ showing full details including link targets**
+### List ~/projects/cyphercore/ showing full details including link targets
 **Command:** 
 `ls -l ~/projects/cyphercore`
 
 <img width="940" height="171" alt="image" src="https://github.com/user-attachments/assets/cbda4390-8cce-4527-90ef-cd18aab56ba2" />
 
-**Delete the original app.conf and try to read the symlink**
+### Delete the original app.conf and try to read the symlink
 **Command:** 
 `rm ~/projects/cyphercore/configs/app.conf`
 
