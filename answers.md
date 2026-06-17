@@ -124,11 +124,11 @@ Instead of typing separate commands for each directory, Bash expanded the patter
 ### Could you have done this without it — and would you want to?
 
 Yes. I could have created the directories individually, for example:
-mkdir -p ~/projects/cyphercore/configs
-mkdir -p ~/projects/cyphercore/reports
-mkdir -p ~/projects/cyphercore/logs/access
-mkdir -p ~/projects/cyphercore/logs/errors
-mkdir -p ~/projects/cyphercore/logs/archive
+`mkdir -p ~/projects/cyphercore/configs`
+`mkdir -p ~/projects/cyphercore/reports`
+`mkdir -p ~/projects/cyphercore/logs/access`
+`mkdir -p ~/projects/cyphercore/logs/errors`
+`mkdir -p ~/projects/cyphercore/logs/archive`
 However, using brace expansion is much faster, requires less typing, and reduces the risk of errors. Creating multiple related directories is generally the preferred approach.
 
 **Q5: Task: Create these five empty files in a single command: configs/app.conf, configs/db.conf, logs/access/access.log, logs/errors/error.log, reports/weekly_report.txt**
@@ -147,14 +147,14 @@ When `touch` is run on a file, it updates the file's access time (atime) and mod
 If the file already exists, `touch` does not delete or modify its contents. Instead, it updates the file's timestamps.
 
 **Commands – for example:**
-```bash
-ls -l app.conf
-touch app.conf
-ls -l app.conf
-**Or:** ```bash
-ls -l ~/projects/cyphercore/configs/app.conf
-touch ~/projects/cyphercore/configs/app.conf
-ls -l ~/projects/cyphercore/configs/app.conf
+
+	`ls -l app.conf`
+	`touch app.conf`
+	`ls -l app.conf`
+**Or:** 
+	`ls -l ~/projects/cyphercore/configs/app.conf`
+	`touch ~/projects/cyphercore/configs/app.conf`
+	`ls -l ~/projects/cyphercore/configs/app.conf`
 The file size and permissions remain the same, but the modification date and time change to the current time.
 
 ### Command: check ls -l before and after — what changes?
@@ -291,38 +291,37 @@ Abena: "Put those into the access log. One at a time. Do not overwrite the file.
 
 **Each command is to be run separately:**
 
-echo "2025-06-02 08:14:33 INFO Application started successfully" >> ~/projects/cyphercore/logs/access/access.log
-echo "2025-06-02 08:14:55 WARN High memory usage detected: 87%" >> ~/projects/cyphercore/logs/access/access.log
-echo "2025-06-02 08:15:10 ERROR Database connection timeout — retrying (attempt 1/3)" >> ~/projects/cyphercore/logs/access/access.log
+`echo "2025-06-02 08:14:33 INFO Application started successfully" >> ~/projects/cyphercore/logs/access/access.log`
+`echo "2025-06-02 08:14:55 WARN High memory usage detected: 87%" >> ~/projects/cyphercore/logs/access/access.log`
+`echo "2025-06-02 08:15:10 ERROR Database connection timeout — retrying (attempt 1/3)" >> ~/projects/cyphercore/logs/access/access.log`
 
 **Command for read back to confirm the operation:**
-
-* cat ~/projects/cyphercore/logs/access/access.log
+`cat ~/projects/cyphercore/logs/access/access.log`
 
 <img width="940" height="251" alt="image" src="https://github.com/user-attachments/assets/f0290c37-e26b-4f1d-87bb-eb4b6171be5e" />
 
-**What is the difference between > and >>?**
+**What is the difference between `>` and `>>`?**
 
-    *	_>_ redirects output to a file and overwrites the file completely
-    *	_>>_ redirects output to a file and appends to the existing content
+    *	`>` redirects output to a file and overwrites the file completely
+    *	`>>` redirects output to a file and appends to the existing content
 **So:**
-    *	_>_ = destructive overwrite
-    *	_>>_ = safe append
+    *	`>` = destructive overwrite
+    *	`>>` = safe append
 
 **Prove it:**
 **access.log** file (~/projects/cyphercore/logs/access/access.log) contains information/data in the image below:
 
-Now overwrite it – access.log by adding **>** to the command:
+Now overwrite it – access.log by adding `>` to the command:
 
 <img width="940" height="150" alt="image" src="https://github.com/user-attachments/assets/5d8c83b2-5326-4a9e-8b65-37109b9a5901" />
 
-**Now overwrite it – access.log by adding > the command:**
+**Now overwrite it – access.log by adding `>` the command:**
 
-echo "Testing > function/power" > ~/projects/cyphercore/logs/access/access.log
+`echo "Testing > function/power" > ~/projects/cyphercore/logs/access/access.log`
 
 **Confirm the output of the operation using cat command:**
 
-cat ~/projects/cyphercore/logs/access/access.log
+`cat ~/projects/cyphercore/logs/access/access.log`
 
 <img width="940" height="77" alt="image" src="https://github.com/user-attachments/assets/43f26cad-94a4-4221-bf32-1ab29dfc3c88" />
 
@@ -331,19 +330,19 @@ Only the newly added text – “Testing > function/power” remains in the acce
 **Restore the file:**
 
 To restore, you must re-add the missing log lines manually or from backup:
-echo "2025-06-02 08:14:33 INFO  Application started successfully" >> ~/projects/cyphercore/logs/access/access.log
-echo "2025-06-02 08:14:55 WARN  High memory usage detected: 87%" >> ~/projects/cyphercore/logs/access/access.log
-echo "2025-06-02 08:15:10 ERROR Database connection timeout — retrying (attempt 1/3)" >> ~/projects/cyphercore/logs/access/access.log
+`echo "2025-06-02 08:14:33 INFO  Application started successfully" >> ~/projects/cyphercore/logs/access/access.log`
+`echo "2025-06-02 08:14:55 WARN  High memory usage detected: 87%" >> ~/projects/cyphercore/logs/access/access.log`
+`echo "2025-06-02 08:15:10 ERROR Database connection timeout — retrying (attempt 1/3)" >> ~/projects/cyphercore/logs/access/access.log`
 
-Output command: cat ~/projects/cyphercore/logs/access/access.log
+Output command: `cat ~/projects/cyphercore/logs/access/access.log`
 
 <img width="940" height="214" alt="image" src="https://github.com/user-attachments/assets/bf919fdb-ce22-482b-a060-e719636ed1af" />
 
-**Why is confusing > and >> dangerous in production log rotation scripts?**
+**Why is confusing `>` and `>>` dangerous in production log rotation scripts?**
 
-In production systems, logs are critical for debugging and auditing. Accidentally using **>** instead of **>>** can:
-    •	Erase active logs containing important incident data
-    •	Remove evidence needed for security investigations
+In production systems, logs are critical for debugging and auditing. Accidentally using `>` instead of `>>` can:
+    *	Erase active logs containing important incident data
+    *	Remove evidence needed for security investigations
     •	Break monitoring and alerting systems that depend on log history
     •	Cause loss of compliance/audit records
 In log rotation scripts, this mistake is especially dangerous because logs are often automatically managed. One wrong redirect operator can wipe out real-time system history without any warning.
@@ -388,20 +387,21 @@ She gives Kofi the entries:
 2025-06-02 08:15:16 CRITICAL Triggering failover to secondary DB at 10.0.0.52
 
 ---
-**Q10: Task: Use heredoc notation to append all four lines into logs/errors/error.log in one operation. Read it back and 📸 screenshot.**
+# Q10: Task: Use heredoc notation to append all four lines into logs/errors/error.log in one operation. Read it back and 📸 screenshot.
 
-Command run operation: 
-cat <<  'EOF'  > ~/projects/cyphercore/logs/errors/error.log
+**Command run operation:** 
+`cat <<  'EOF'  > ~/projects/cyphercore/logs/errors/error.log
 2025-06-02 08:15:10 ERROR    Database connection timeout — retrying (attempt 1/3)
 2025-06-02 08:15:13 ERROR    Database connection timeout — retrying (attempt 2/3)
 2025-06-02 08:15:16 CRITICAL Database connection failed — all retries exhausted
 2025-06-02 08:15:16 CRITICAL Triggering failover to secondary DB at 10.0.0.52
-EOF
+EOF`
+
 💡 Hint: A heredoc starts with << and a delimiter word (e.g., EOF). Everything between the opening and closing delimiters is written as-is. The closing delimiter must be alone on its line.
 
 <img width="940" height="304" alt="image" src="https://github.com/user-attachments/assets/3ef6bdc2-9fc9-44c0-9fd0-62757aa00854" />
 
-**Read it back**: tac ~/projects/cyphercore/logs/errors/error.log
+**Read it back**: `tac ~/projects/cyphercore/logs/errors/error.log`
 
 <img width="940" height="125" alt="image" src="https://github.com/user-attachments/assets/9f62e506-006a-4b0b-b140-9de8707ae204" />
 
@@ -409,23 +409,23 @@ EOF
 
 A heredoc ("here document") is a shell feature that allows multiple lines of text to be provided as input to a command.
 Example:
-      cat <<  'EOF'  > ~/projects/cyphercore/logs/errors/error.log
+      `cat <<  'EOF'  > ~/projects/cyphercore/logs/errors/error.log
       2025-06-02 08:15:10 ERROR    Database connection timeout — retrying (attempt 1/3)
       2025-06-02 08:15:13 ERROR    Database connection timeout — retrying (attempt 2/3)
       2025-06-02 08:15:16 CRITICAL Database connection failed — all retries exhausted
       2025-06-02 08:15:16 CRITICAL Triggering failover to secondary DB at 10.0.0.52
-      EOF
+      EOF`
 **Compared to multiple echo commands, a heredoc:**
-      •	Is easier to read and maintain
+      *	`Is` easier to read and maintain
       •	Reduces repetitive commands
       •	Preserves formatting exactly
-      •	Is commonly used in scripts to generate configuration files, logs, and templates
+      •	`Is`is commonly used in scripts to generate configuration files, logs, and templates
 
 **What is the difference between 'EOF' (quoted) and EOF (unquoted)?**
 When the delimiter is **unquoted**:
-      cat << EOF
+      `cat << EOF
       Database name: $DBNAME
-      EOF
+      EOF`
 Shell variables are expanded before being written.
 Output:
 Database name: cyphercore
@@ -433,17 +433,18 @@ Database name: cyphercore
 <img width="940" height="180" alt="image" src="https://github.com/user-attachments/assets/358540ed-0f9c-48e2-b956-ac5e24f270e8" />
 
 When the delimiter is quoted:
-      cat << 'EOF'
+      `cat << 'EOF'
       Database name: $DBNAME
-      EOF
+      EOF`
 Variable expansion is disabled.
 Output:
 Database name: $DBNAME
+
 <img width="940" height="152" alt="image" src="https://github.com/user-attachments/assets/403c581a-6fb2-4ac9-907f-11af3d591343" />
 
 **Observation**
-    •	EOF → variables, command substitutions, and escape sequences may be interpreted.
-    •	'EOF' → content is treated literally.
+    *	EOF → variables, command substitutions, and escape sequences may be interpreted.
+    *	'EOF' → content is treated literally.
 Quoted delimiters are safer when exact text must be preserved.
 
 <img width="940" height="561" alt="image" src="https://github.com/user-attachments/assets/ba7b0f89-bb50-4ee2-8ecb-4bbcbefa269a" />
@@ -452,13 +453,13 @@ Quoted delimiters are safer when exact text must be preserved.
 
 A heredoc can create or modify files directly from the shell without launching an interactive editor.
 **Example:**
-      cat << 'EOF' > ~/projects/cyphercore/configs/app.conf
+      `cat << 'EOF' > ~/projects/cyphercore/configs/app.conf
       setting=value
-      EOF
+      EOF`
 **Advantages:**
-      •	Faster during incident response
-      •	Works over unstable SSH connections
-      •	Can be pasted directly into scripts or automation
+      *	Faster during incident response
+      *	Works over unstable SSH connections
+      *	Can be pasted directly into scripts or automation
       
 **What forensic traces does each method leave?**
 **Heredoc:**
@@ -468,13 +469,13 @@ Typically leaves:
     •	Audit logs if command auditing is enabled
 **nano/vim:**
 Typically leaves:
-    •	Shell history showing the editor launch
-    •	File modification timestamps
-    •	Swap files, backup files, or recovery files (depending on editor settings)
-    •	Additional audit records showing editor execution
+    *	Shell history showing the editor launch
+    *	File modification timestamps
+    *	Swap files, backup files, or recovery files (depending on editor settings)
+    *	Additional audit records showing editor execution
 From a forensic perspective, interactive editors often leave more artifacts than a simple heredoc command, although both may still be visible through shell history and system auditing.
 
-**Q11: Task: Open the error log using two different pager commands. Navigate and quit each one.**
+# Q11: Task: Open the error log using two different pager commands. Navigate and quit each one.
 
 **more command**: press the Enter key to navigate line by line; Space key to navigate page by page; PgDn/PgUp to navigate page down/page up. q key to quit.
 
