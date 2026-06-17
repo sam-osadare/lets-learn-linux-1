@@ -4,108 +4,127 @@
 This repository contains my Linux assignment/lab-1 completed as part of the ParoCyber DevSecOps Bootcamp.
 
 ## Tasks Completed
-**System Orientation**
-**Q1:** **Print your current directory, your username, and full OS and kernel details — three separate commands.**
 
-<img width="940" height="357" alt="image" src="https://github.com/user-attachments/assets/855df528-e487-4722-a6d0-a6835d66b72e" />
+**Q1: Print your current directory, your username, and full OS and kernel details — three separate commands.**
 
-**What does each command tell you? Why does a DevSecOps engineer run these three things first when SSHing into an unknown server — especially regarding kernel CVEs?**
-**Commands:**
-pwd: It displays my exact/current path or directory.
-whoami: It displays the current user. This helps to ascertain the current user’s privilege level.
-hostnamectl: it provides the details of the operating system – OS, Kernel, and architecture
-**DevSecOps Engineer:**
-pwd: it helps identify the right directory before committing any system modifications. This prevents wrong modifications of sensitive files like /etc or root.
-whoami: to determine the access/privilege level of the current user. This way, I can determine if I need root access or not before committing any changes to the system.
-hostnamectl: by displaying the system’s OS, Kernel and architecture information, I can easily, as a DevSecOps Engineer, identify any malicious system modifications and attack surface or known vulnerabilities.
+![image](https://github.com/user-attachments/assets/855df528-e487-4722-a6d0-a6835d66b72e)
 
-**Q2:** **List the contents of the root directory — the very top of the Linux filesystem. Pick five directories from the output and explain each one's purpose. What is the Filesystem Hierarchy Standard (FHS) and why does it exist? What breaks on a shared production server without it?**
- 
- <img width="940" height="274" alt="image" src="https://github.com/user-attachments/assets/92dcacd5-3ea3-4a76-a604-475c0a1c543c" />
+### What does each command tell you? Why does a DevSecOps engineer run these three things first when SSHing into an unknown server — especially regarding kernel CVEs?
 
-Command: ls -a /
+#### Commands:
+- **pwd:** It displays my exact/current path or directory.
+- **whoami:** It displays the current user. This helps to ascertain the current user’s privilege level.
+- **hostnamectl:** It provides the details of the operating system – OS, Kernel, and architecture.
+
+#### DevSecOps Engineer:
+- **pwd:** It helps identify the right directory before committing any system modifications. This prevents wrong modifications of sensitive files like `/etc` or root.
+- **whoami:** To determine the access/privilege level of the current user. This way, I can determine if I need root access or not before committing any changes to the system.
+- **hostnamectl:** By displaying the system’s OS, Kernel, and architecture information, I can easily, as a DevSecOps Engineer, identify any malicious system modifications and attack surface or known vulnerabilities.
+
+---
+
+**Q2: List the contents of the root directory — the very top of the Linux filesystem. Pick five directories from the output and explain each one's purpose. What is the Filesystem Hierarchy Standard (FHS) and why does it exist? What breaks on a shared production server without it?**
+
+![image](https://github.com/user-attachments/assets/92dcacd5-3ea3-3ea4-4a76-a604-475c0a1c543c)
+
+**Command:** `ls -a /`
 
 **Five directories and their purposes:**
-/root – it is the home directory for the root user. It is the highest directory in the Filesystem Hierarchy Standard (FHS).
-/home – it is the user’s personal directory. It represents the individual user’s directory in the system
-/etc – this directory contains all the configuration files, such as shadow, passwd, and firewall settings or rules.
-/tmp – it is a directory for temporary files like ssh-XXXXXX/, apt-extract-dummy, exploit.sh, etc.
-/bin – it is a directory that contains executable programs/commands (standard users and admins) that are essential for the system booting and running in a single-user mode.
+* **/root** – it is the home directory for the root user. It is the highest directory in the Filesystem Hierarchy Standard (FHS).
+* **/home** – it is the user’s personal directory. It represents the individual user’s directory in the system.
+* **/etc** – this directory contains all the configuration files, such as shadow, passwd, and firewall settings or rules.
+* **/tmp** – it is a directory for temporary files like `ssh-XXXXXX/`, `apt-extract-dummy`, `exploit.sh`, etc.
+* **/bin** – it is a directory that contains executable programs/commands (standard users and admins) that are essential for the system booting and running in a single-user mode.
 
-**What is the Filesystem Hierarchy Standard (FHS) and why does it exist?**
+---
+
+### What is the Filesystem Hierarchy Standard (FHS) and why does it exist?
 
 **Filesystem Hierarchy Standard (FHS)**: This is a formal standard by the Linux Foundation that describes the layout and directories in Linux and Unix-like operating systems. It ensures that a uniformity is maintained for the structure and format of directories/files and where each of the files must reside in the system. 
+
 FHS was developed and adopted as the standard for Linux to eradicate the menace of dumping files anywhere as deemed necessary by the creators before the mid-1990s. 
 
-**FHS addresses the three benefits:**
-**Predictability**: with FHS, hardcoding file paths into their respective applications, like pointing a service to /etc for a setting/file, by the developers is made possible, while assuring that it will work on all Linux distributions.
-**Interoperability**: FHS protects the native operating system by addressing any breaking or overwriting concerns and problems during the third-party software installation on any compliant system.
-**Physical and Logical Isolation**: FHS aims to strengthen the effective demarcation, isolation, and categorization of the filesystem. It helps with the separation of files from one another, such as the user’s file in /home from system binaries in /usr, and the mounting of directories on the hard drives or partitions for optimised different workloads.
+#### FHS addresses the three benefits:
+* **Predictability**: With FHS, hardcoding file paths into their respective applications, like pointing a service to `/etc` for a setting/file, by the developers is made possible, while assuring that it will work on all Linux distributions.
+* **Interoperability**: FHS protects the native operating system by addressing any breaking or overwriting concerns and problems during the third-party software installation on any compliant system.
+* **Physical and Logical Isolation**: FHS aims to strengthen the effective demarcation, isolation, and categorization of the filesystem. It helps with the separation of files from one another, such as the user’s file in `/home` from system binaries in `/usr`, and the mounting of directories on the hard drives or partitions for optimised different workloads.
 
-**What breaks on a shared production server without it?**
+---
+
+### What breaks on a shared production server without it?
 
 A production server will in no doubt break if one the followings occur;
 
-**Disk Exhaustion and Storage Management problem:** When FHS is ignored in setting up storage and disk in an operational environment, and everything sits on the /root partition, a sudden spike in application logging or a user uploading massive files to a random directory can instantly fill the entire disk. Consequently, when the root partition hits 100% utilization, the kernel cannot write critical system files, causing the entire production server to crash and experience a Denial of Service (DoS).
-**Automated Patching and Configuration Management:** Automated tools are built to interact with folders (e.g.,/usr/bin) in the system during security patching. But when the server has a faulty FHS and the appropriate folder is not accessible, the patching automation will fail, leading to the server being vulnerable to critical CVEs because automated security updates are silently missing their targets.
+* **Disk Exhaustion and Storage Management problem**: When FHS is ignored in setting up storage and disk in an operational environment, and everything sits on the `/root` partition, a sudden spike in application logging or a user uploading massive files to a random directory can instantly fill the entire disk. Consequently, when the root partition hits 100% utilization, the kernel cannot write critical system files, causing the entire production server to crash and experience a Denial of Service (DoS).
+* **Automated Patching and Configuration Management**: Automated tools are built to interact with folders (e.g., `/usr/bin`) in the system during security patching. But when the server has a faulty FHS and the appropriate folder is not accessible, the patching automation will fail, leading to the server being vulnerable to critical CVEs because automated security updates are silently missing their targets.
 
-**Q3:** **List your home directory twice – once the default way, then again revealing hidden files with full details (permissions, ownership, size)**
+---
+
+**Q3: List your home directory twice – once the default way, then again revealing hidden files with full details (permissions, ownership, size)**
 
 **Since I am currently in my home directory, the following commands are used directly:**
-To list in a default way – no permissions, hidden files, etc included: ls
-To list with permissions, hidden files included: ls -al
+* To list in a default way – no permissions, hidden files, etc included: `ls`
+* To list with permissions, hidden files included: `ls -al`
 
-<img width="940" height="575" alt="image" src="https://github.com/user-attachments/assets/ef416b6b-d0ed-4c30-9925-fb4e65d9a422" />
+![image](https://github.com/user-attachments/assets/ef416b6b-d0ed-4c30-9925-fb4e65d9a422)
 
-**What is different between the two outputs? What makes a file hidden in Linux — is it a special type? Name two real hidden files found in a home directory and explain what they do.**
+#### What is different between the two outputs? What makes a file hidden in Linux — is it a special type? Name two real hidden files found in a home directory and explain what they do.
 
 **Difference between the two outputs:**
-	• _ls_: displays only the visible files and directories in the home directory
-	• _ls_ _-al_: while ls l displays all files, directories, and other details, _-a_ includes all the hidden ones – special entries “**.**” Current directory and “**..**” parent directory (**.profile, .ssh, .local** as shown in the picture). 
+* `ls`: displays only the visible files and directories in the home directory.
+* `ls -al`: while `ls -l` displays all files, directories, and other details, `-a` includes all the hidden ones – special entries **`.`** (current directory) and **`..`** (parent directory), as well as `.profile`, `.ssh`, `.local` as shown in the picture. 
 
 The command also shows detailed information such as:
-    • File or directory name
-    • File permissions
-    • Number of links
-    • Owner
-    • Group owner
-    • File size
-    • Last modification date and time
+* File or directory name
+* File permissions
+* Number of links
+* Owner
+* Group owner
+* File size
+* Last modification date and time
 
 **What makes a file hidden in Linux — is it a special type:**
-A file is hidden in Linux when its name begins with a dot (**.**). Hidden files are not a special file type. They are ordinary files or directories that follow this naming convention.
+A file is hidden in Linux when its name begins with a dot (**`.`**). Hidden files are not a special file type. They are ordinary files or directories that follow this naming convention.
 
 **Name two real hidden files found in a home directory and explain what they do:**
+* `.bashrc` – Stores Bash shell configuration settings, aliases, and environment variables that are loaded when a shell session starts.
+* `.profile` – Contains user-specific startup commands and environment settings that are executed when the user logs in.
 
-  _.bashrc_ – Stores Bash shell configuration settings, aliases, and environment variables that are loaded when a shell session starts.
-  _.profile_ – Contains user-specific startup commands and environment settings that are executed when the user logs in.
+![image](https://github.com/user-attachments/assets/86819dfa-eb25-4912-a133-ae56feea38b3)
 
-<img width="940" height="175" alt="image" src="https://github.com/user-attachments/assets/86819dfa-eb25-4912-a133-ae56feea38b3" />
+**Q4: Create the entire structure above in a single command — including all nested subdirectories. Then display the full tree to verify.**
 
-**Q4:** **Create the entire structure above in a single command — including all nested subdirectories. Then display the full tree to verify.**
+![image](https://github.com/user-attachments/assets/7243624b-5774-4ae0-9182-82fd2f0d2390)
 
-<img width="940" height="231" alt="image" src="https://github.com/user-attachments/assets/7243624b-5774-4ae0-9182-82fd2f0d2390" />
-
-**Which flag did you use, and what does it do?**
+### Which flag did you use, and what does it do?
 
 I used the **-p** flag with the mkdir command.
 The **-p** flag tells mkdir to create parent directories as needed. If intermediate directories do not already exist, they are created automatically. It also prevents errors if a directory already exists.
-Example: _mkdir -p ~/projects/cyphercore/logs/access_
+
+**Example:** _mkdir -p ~/projects/cyphercore/logs/access_
 This creates all missing directories in the path at once.
 
-**What is brace expansion and how did it help here?**
+---
+
+### What is brace expansion and how did it help here?
 
 Brace expansion is a Bash feature that generates multiple strings from a single pattern enclosed in curly braces {}.
-For example:
-	echo {a,b,c}
-	produces:
-	a b c
-In this task, brace expansion allowed me to create several directories with one command: mkdir -p ~/projects/cyphercore/{configs,reports,logs/{access,errors,archive}}
+
+**For example:**
+`echo {a,b,c}`
+produces:
+`a b c`
+
+In this task, brace expansion allowed me to create several directories with one command: `mkdir -p ~/projects/cyphercore/{configs,reports,logs/{access,errors,archive}}`
+
 Instead of typing separate commands for each directory, Bash expanded the pattern into all the required paths automatically.
 
-**Could you have done this without it — and would you want to?**
+---
+
+### Could you have done this without it — and would you want to?
 
 Yes. I could have created the directories individually, for example:
+```bash
 mkdir -p ~/projects/cyphercore/configs
 mkdir -p ~/projects/cyphercore/reports
 mkdir -p ~/projects/cyphercore/logs/access
@@ -115,143 +134,159 @@ However, using brace expansion is much faster, requires less typing, and reduces
 
 **Q5: Task: Create these five empty files in a single command: configs/app.conf, configs/db.conf, logs/access/access.log, logs/errors/error.log, reports/weekly_report.txt**
 
-**Command:** touch ~/projects/cyphercore/configs/{app.conf, db.conf} ~/projects/cyphercore/logs/{access/access.log, errors/error.log} ~/projects/cyphercore/reports/weekly_report.txt
+**Command:** `touch ~/projects/cyphercore/configs/{app.conf, db.conf} ~/projects/cyphercore/logs/{access/access.log, errors/error.log} ~/projects/cyphercore/reports/weekly_report.txt`
 
-<img width="940" height="529" alt="image" src="https://github.com/user-attachments/assets/45eb009a-a426-4215-a676-6a1ffdd85d65" />
+![image](https://github.com/user-attachments/assets/45eb009a-a426-4215-a676-6a1ffdd85d65)
 
-**What does this command actually do beyond creating files?**
+### What does this command actually do beyond creating files?
 
-The touch command creates empty files if they do not already exist. However, its primary purpose is to update a file's timestamps.
-When touch is run on a file, it updates the file's access time (atime) and modification time (mtime) to the current date and time.
+The `touch` command creates empty files if they do not already exist. However, its primary purpose is to update a file's timestamps.
+When `touch` is run on a file, it updates the file's access time (atime) and modification time (mtime) to the current date and time.
 
-**What happens if you run it on an existing file?**
+### What happens if you run it on an existing file?
 
-If the file already exists, touch does not delete or modify its contents. Instead, it updates the file's timestamps.
-Commands – for example:
-		ls -l app.conf
-		touch app.conf
-		ls -l app.conf
-**Or**: ls -l ~/projects/cyphercore/configs/app.conf
-		touch ~/projects/cyphercore/configs/app.conf
-		ls -l ~/projects/cyphercore/configs/app.conf
+If the file already exists, `touch` does not delete or modify its contents. Instead, it updates the file's timestamps.
+
+**Commands – for example:**
+```bash
+ls -l app.conf
+touch app.conf
+ls -l app.conf
+**Or:** ```bash
+ls -l ~/projects/cyphercore/configs/app.conf
+touch ~/projects/cyphercore/configs/app.conf
+ls -l ~/projects/cyphercore/configs/app.conf
 The file size and permissions remain the same, but the modification date and time change to the current time.
 
-**Command: check ls -l before and after — what changes?**
+### Command: check ls -l before and after — what changes?
 
-<img width="940" height="134" alt="image" src="https://github.com/user-attachments/assets/1e012297-7ea8-49ed-9292-814abe4a04b7" />
+![image](https://github.com/user-attachments/assets/1e012297-7ea8-49ed-9292-814abe4a04b7)
 
 **Before:**
--rw-rw-r-- 1 sirban1 sirban1 0 Jun 10 09:53 app.conf
+`-rw-rw-r-- 1 sirban1 sirban1 0 Jun 10 09:53 app.conf`
 
 **After running touch app.conf:**
--rw-rw-r-- 1 sirban1 sirban1 0 Jun 10 10:05 app.conf
+`-rw-rw-r-- 1 sirban1 sirban1 0 Jun 10 10:05 app.conf`
 
 **The following remain unchanged:**
-	•	File name
-	•	File size
-	•	Permissions
-	•	Owner and group
+* File name
+* File size
+* Permissions
+* Owner and group
+
 The modification timestamp changes to the current time.
 
-**Why does this behaviour matter in automation scripts?**
+### Why does this behaviour matter in automation scripts?
 
 This behaviour is useful because scripts can safely ensure that required files exist without overwriting existing data.
-For example, a deployment script can run: _touch app.conf_
+
+For example, a deployment script can run: `touch app.conf`
 If the file does not exist, it is created. If it already exists, its contents are preserved.
+
 Updating timestamps can also be used to:
-	•	Mark when a task was last run
-	•	Trigger build systems that rely on file modification times
-	•	Create marker files that indicate a process has completed
-Because touch is non-destructive, it is commonly used in automation and system administration scripts.
+* Mark when a task was last run
+* Trigger build systems that rely on file modification times
+* Create marker files that indicate a process has completed
+
+Because `touch` is non-destructive, it is commonly used in automation and system administration scripts.
+
+---
 
 **Q6: Task: List ~/projects/cyphercore/configs/ in long format with human-readable file sizes.**
 
-Command to run: _ls -lh ~/projects/cyphercore/configs_
--l = long format	
--h = human-readable file size
+**Command to run:** `ls -lh ~/projects/cyphercore/configs`
+* `-l` = long format
+* `-h` = human-readable file size
 
-<img width="940" height="205" alt="image" src="https://github.com/user-attachments/assets/e9d3ea49-d3f9-4865-b2e1-20dbfd227ac0" />
+![image](https://github.com/user-attachments/assets/e9d3ea49-d3f9-4865-b2e1-20dbfd227ac0)
 
-**What do the file sizes tell you about the files you just created?**
+### What do the file sizes tell you about the files you just created?
 
-The file sizes are shown as 0, which means the files are empty. This is expected because they were created using the touch command, which creates files without adding any content.
+The file sizes are shown as `0`, which means the files are empty. This is expected because they were created using the `touch` command, which creates files without adding any content.
 
-**Break down the permission string on one file — explain every character group.**
-Example permission string: **-rw-rw-r--**
+### Break down the permission string on one file — explain every character group.
+
+**Example permission string:** `-rw-rw-r--`
+
 **Breakdown:**
-  **-** → The file type. A dash (**-**) indicates a regular file. A directory would be shown as **d**.
-      **rw- → Permissions for the owner:**
-            r = read
-          	w = write
-            - = no execute permission
-      **rw- → Permissions for the group:**
-            r = read
-            w = write permission
-            - = no execute permission
-      **r-- → Permissions for others:**
-            r = read
-            - = no write permission
-            - = no execute permission
+* **`-`** → The file type. A dash (`-`) indicates a regular file. A directory would be shown as `d`.
+* **`rw-`** → Permissions for the owner:
+  * `r` = read
+  * `w` = write
+  * `-` = no execute permission
+* **`rw-`** → Permissions for the group:
+  * `r` = read
+  * `w` = write permission
+  * `-` = no execute permission
+* **`r--`** → Permissions for others:
+  * `r` = read
+  * `-` = no write permission
+  * `-` = no execute permission
+
 Therefore, the owner can read and modify the file, while group members and other users can only read it.
 
-**What does the -h flag add?**
+### What does the -h flag add?
 
 The **-h** flag makes file sizes human-readable. 
-**Without -h**, sizes are displayed in bytes: ls -l
-Example:
+
+**Without -h**, sizes are displayed in bytes: `ls -l`
+*Example:*
+```text
 1024
 1048576
-**With -h:**
-ls -lh
-Example:
+
+**With -h**: `ls -lh`
+*Example:*
 1.0K
 1.0M
 This makes file sizes easier for humans to understand, especially when working with large files and directories.
 
 **Q7: Task: Display the full tree of ~/projects/cyphercore again**. 
 
-<img width="940" height="349" alt="image" src="https://github.com/user-attachments/assets/7045794b-8431-409a-8c7c-026c5ab498fd" />
+![image](https://github.com/user-attachments/assets/7045794b-8431-409a-8c7c-026c5ab498fd)
 
-**How is tree different from _ls_ -R?**
+### How is tree different from ls -R?
 
 Both commands display directory contents recursively, but they do it differently:
-    •	_tree_ shows the directory structure in a visual hierarchical format, using lines and branches to represent folder relationships clearly.
-    •	_ls -R_ prints a text-based recursive listing, showing each directory followed by its contents in sequence, but without a visual structure.
+* `tree` shows the directory structure in a visual hierarchical format, using lines and branches to represent folder relationships clearly.
+* `ls -R` prints a text-based recursive listing, showing each directory followed by its contents in sequence, but without a visual structure.
 
-In short:
- 	•	_tree_ is visually easier to understand
-	•	_ls -R_ is more raw and minimal
+**In short:**
+* `tree` is visually easier to understand
+* `ls -R` is more raw and minimal
   
 **Example difference:**
-**tree output:**
 
-<img width="421" height="354" alt="image" src="https://github.com/user-attachments/assets/1bf1deed-7411-4fea-9ee2-d6f56ec87a77" />
+**tree output:**
+![image](https://github.com/user-attachments/assets/1bf1deed-7411-4fea-9ee2-d6f56ec87a77)
 
 **ls -R output:**
+![image](https://github.com/user-attachments/assets/27ed3687-574b-4c50-9868-a63e9562a677)
 
-<img width="703" height="530" alt="image" src="https://github.com/user-attachments/assets/27ed3687-574b-4c50-9868-a63e9562a677" />
+### When would a DevSecOps engineer run tree on a live server?
 
-**When would a DevSecOps engineer run tree on a live server?**
+A DevSecOps engineer would use `tree` on a live server to quickly understand and audit the file system structure. They might be looking for:
+* Unexpected or unauthorized directories or files
+* Misplaced configuration files
+* Hidden or suspicious files in sensitive directories
+* Proper placement of logs, configs, and secrets
+* Verification of deployment structure after automation or CI/CD runs
 
-A DevSecOps engineer would use tree on a live server to quickly understand and audit the file system structure. They might be looking for:
-    •	Unexpected or unauthorized directories or files
-    •	Misplaced configuration files
-    •	Hidden or suspicious files in sensitive directories
-    •	Proper placement of logs, configs, and secrets
-    •	Verification of deployment structure after automation or CI/CD runs
 It helps with security reviews and incident response as it gives a fast visual overview of what exists on the system without opening files or deeply inspecting each directory individually.
 
-================================================================================================================================================================
+---
 
-9:42 AM. Abena's phone buzzes.
-Abena: "Staging just threw errors. I need you to simulate what their application logs look like so we can practice triaging them."
-She hands Kofi a notepad with three log lines:
+9:42 AM. Abena's phone buzzes.  
+Abena: "Staging just threw errors. I need you to simulate what their application logs look like so we can practice triaging them."  
+She hands Kofi a notepad with three log lines:  
+```text
 2025-06-02 08:14:33 INFO  Application started successfully
 2025-06-02 08:14:55 WARN  High memory usage detected: 87%
 2025-06-02 08:15:10 ERROR Database connection timeout — retrying (attempt 1/3)
+
 Abena: "Put those into the access log. One at a time. Do not overwrite the file."
 
-=================================================================================================================================================================
+---
 
 **Q8: Task: Write each of the three log lines into logs/access/access.log using echo, appending each one. Read the file back to confirm all three lines exist.**
 
@@ -263,20 +298,22 @@ echo "2025-06-02 08:15:10 ERROR Database connection timeout — retrying (attemp
 
 **Command for read back to confirm the operation:**
 
-cat ~/projects/cyphercore/logs/access/access.log
+* cat ~/projects/cyphercore/logs/access/access.log
 
 <img width="940" height="251" alt="image" src="https://github.com/user-attachments/assets/f0290c37-e26b-4f1d-87bb-eb4b6171be5e" />
 
 **What is the difference between > and >>?**
 
-    •	_>_ redirects output to a file and overwrites the file completely
-    •	_>>_ redirects output to a file and appends to the existing content
+    *	_>_ redirects output to a file and overwrites the file completely
+    *	_>>_ redirects output to a file and appends to the existing content
 **So:**
-    •	_>_ = destructive overwrite
-    •	_>>_ = safe append
+    *	_>_ = destructive overwrite
+    *	_>>_ = safe append
 
 **Prove it:**
-**access.log** file (~/projects/cyphercore/logs/access/access.log) contains information/data in the image below
+**access.log** file (~/projects/cyphercore/logs/access/access.log) contains information/data in the image below:
+
+Now overwrite it – access.log by adding **>** to the command:
 
 <img width="940" height="150" alt="image" src="https://github.com/user-attachments/assets/5d8c83b2-5326-4a9e-8b65-37109b9a5901" />
 
@@ -314,43 +351,44 @@ In log rotation scripts, this mistake is especially dangerous because logs are o
 
 **Q9: Task: Display the access log using two different reading commands — one from top to bottom, one from bottom to top.**
 
-Command for “from the top”: cat ~/projects/cyphercore/logs/access/access.log
-Command for “from the bottom”: tac ~/projects/cyphercore/logs/access/access.log
+* **Command for “from the top”:** `cat ~/projects/cyphercore/logs/access/access.log`
+* **Command for “from the bottom”:** `tac ~/projects/cyphercore/logs/access/access.log`
 
-<img width="940" height="299" alt="image" src="https://github.com/user-attachments/assets/2a2ffe15-dbd4-466b-9f7e-c9b226af71b9" />
+![image](https://github.com/user-attachments/assets/2a2ffe15-dbd4-466b-9f7e-c9b226af71b9)
 
-**What is the difference between the two reading commands?**
-    •	cat prints the file from top to bottom (oldest to newest lines).
-    •	tac prints the file from bottom to top (newest to oldest lines).
+### What is the difference between the two reading commands?
+* `cat` prints the file from top to bottom (oldest to newest lines).
+* `tac` prints the file from bottom to top (newest to oldest lines).
+
 They show the same data but in opposite order.
 
-**In a real incident (80,000 lines), which do you reach for first?**
-In a real incident, I would reach for the bottom of the file first using tools like tac or tail, because:
-    •	The most recent errors are at the bottom
-    •	Incidents are usually caused by the latest changes or events
-    •	It reduces time spent scanning irrelevant historical logs
+### In a real incident (80,000 lines), which do you reach for first?
+In a real incident, I would reach for the bottom of the file first using tools like `tac` or `tail`, because:
+* The most recent errors are at the bottom
+* Incidents are usually caused by the latest changes or events
+* It reduces time spent scanning irrelevant historical logs
 
 Typically, start with:
-**tail -n 50 logfile**
+`tail -n 50 logfile`
 
-**What third command shows only the last 10 lines?**
+### What third command shows only the last 10 lines?
 The command is:
-**tail -n 10 logfile** (Or simply tail logfile, which defaults to 10 lines.)
+`tail -n 10 logfile` *(Or simply `tail logfile`, which defaults to 10 lines.)*
 
-**Why this matters in debugging**
+### Why this matters in debugging
+Logs grow over time, so reading everything is inefficient. Tools like `tail` and `tac` help engineers quickly focus on the most recent and most relevant system events during troubleshooting.
 
-Logs grow over time, so reading everything is inefficient. Tools like tail and tac help engineers quickly focus on the most recent and most relevant system events during troubleshooting.
+---
 
-========================================================================================================================================================
-
-Abena: "Now the error log — four lines. Don't use echo four times. Write it the way you'd write it in a script."
-She gives Kofi the entries:
+9:42 AM. Abena: "Now the error log — four lines. Don't use echo four times. Write it the way you'd write it in a script."  
+She gives Kofi the entries:  
+```text
 2025-06-02 08:15:10 ERROR    Database connection timeout — retrying (attempt 1/3)
 2025-06-02 08:15:13 ERROR    Database connection timeout — retrying (attempt 2/3)
 2025-06-02 08:15:16 CRITICAL Database connection failed — all retries exhausted
 2025-06-02 08:15:16 CRITICAL Triggering failover to secondary DB at 10.0.0.52
 
-=========================================================================================================================================================
+---
 **Q10: Task: Use heredoc notation to append all four lines into logs/errors/error.log in one operation. Read it back and 📸 screenshot.**
 
 Command run operation: 
