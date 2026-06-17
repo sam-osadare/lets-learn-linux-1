@@ -148,13 +148,15 @@ If the file already exists, `touch` does not delete or modify its contents. Inst
 
 **Commands – for example:**
 
-	`ls -l app.conf`
-	`touch app.conf`
-	`ls -l app.conf`
+	ls -l app.conf
+	touch app.conf
+	ls -l app.conf
+
 **Or:** 
 	`ls -l ~/projects/cyphercore/configs/app.conf`
 	`touch ~/projects/cyphercore/configs/app.conf`
 	`ls -l ~/projects/cyphercore/configs/app.conf`
+
 The file size and permissions remain the same, but the modification date and time change to the current time.
 
 ### Command: check ls -l before and after — what changes?
@@ -230,7 +232,6 @@ The **-h** flag makes file sizes human-readable.
 
 **Without -h**, sizes are displayed in bytes: `ls -l`
 *Example:*
-```text
 1024
 1048576
 
@@ -278,10 +279,10 @@ It helps with security reviews and incident response as it gives a fast visual o
 9:42 AM. Abena's phone buzzes.  
 Abena: "Staging just threw errors. I need you to simulate what their application logs look like so we can practice triaging them."  
 She hands Kofi a notepad with three log lines:  
-```text
-2025-06-02 08:14:33 INFO  Application started successfully
-2025-06-02 08:14:55 WARN  High memory usage detected: 87%
-2025-06-02 08:15:10 ERROR Database connection timeout — retrying (attempt 1/3)
+
+	2025-06-02 08:14:33 INFO  Application started successfully
+	2025-06-02 08:14:55 WARN  High memory usage detected: 87%
+	2025-06-02 08:15:10 ERROR Database connection timeout — retrying (attempt 1/3)
 
 Abena: "Put those into the access log. One at a time. Do not overwrite the file."
 
