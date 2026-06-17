@@ -479,58 +479,71 @@ From a forensic perspective, interactive editors often leave more artifacts than
 
 # Q11: Task: Open the error log using two different pager commands. Navigate and quit each one.
 
-**more command**: press the Enter key to navigate line by line; Space key to navigate page by page; PgDn/PgUp to navigate page down/page up. q key to quit.
+**more command:** press the Enter key to navigate line by line; Space key to navigate page by page; PgDn/PgUp to navigate page down/page up. q key to quit.
 
-<img width="940" height="186" alt="image" src="https://github.com/user-attachments/assets/5124cf8b-ffea-4bd6-9075-b54c86624684" />
+![image](https://github.com/user-attachments/assets/5124cf8b-ffea-4bd6-9075-b54c86624684)
 
 **less command:**
 
-<img width="940" height="575" alt="image" src="https://github.com/user-attachments/assets/a77c9d2a-0b00-43a8-bc24-da460e7e6d61" />
+![image](https://github.com/user-attachments/assets/a77c9d2a-0b00-43a8-bc24-da460e7e6d61)
 
-**Key differences between more and less**
+---
+
+### Key differences between more and less
 
 Both are pager programs used to read files one screen at a time.
+
 **more:**
-      •	Older and simpler pager
-      •	Primarily moves forward through a file
-      •	Limited navigation features
-      •	Suitable for small files
+* Older and simpler pager
+* Primarily moves forward through a file
+* Limited navigation features
+* Suitable for small files
+
 **less:**
-      •	More powerful and flexible
-      •	Can move forward and backward
-      •	Supports searching
-      •	Better suited for large log files
-      •	Commonly used by system administrators and DevSecOps engineers
+* More powerful and flexible
+* Can move forward and backward
+* Supports searching
+* Better suited for large log files
+* Commonly used by system administrators and DevSecOps engineers
 
 **A useful way to remember it is:** "less is more" because less provides more functionality than more.
 
-**Which loads the entire file into memory first?**
+---
+
+### Which loads the entire file into memory first?
 
 Generally:
-    •	_more_ is less efficient with very large files and has fewer optimizations.
-    •	_less_ is designed to read files incrementally and does not need to load the entire file into memory before displaying content.
+* *more* is less efficient with very large files and has fewer optimizations.
+* *less* is designed to read files incrementally and does not need to load the entire file into memory before displaying content.
+
 For very large logs, less is the preferred tool.
 
-**On a server with 512 MB RAM and a 3 GB log, which do you use?**
+---
+
+### On a server with 512 MB RAM and a 3 GB log, which do you use?
 
 I would use the **less** command because it can efficiently handle large files without requiring the entire file to be loaded into memory.
-For troubleshooting recent events, I might first use: **tail -n 50 [filename]**, and then use the _less_ command for deeper investigation.
 
-**Three useful keyboard shortcuts for less:**
-    • Search: /search_term, e.g. /CRITICAL – press enter to search forward through the file.
-    • Jump to the end: press G (capital G). This moves directly to the last line of the file.
-    • Quit: press q. This exits less and returns to the shell prompt.
+For troubleshooting recent events, I might first use: **tail -n 50 [filename]**, and then use the *less* command for deeper investigation.
 
-**Q12: Tasks: Copy the error log to the archive folder as error_2025-06-02.log**
+---
+
+### Three useful keyboard shortcuts for less:
+
+* **Search:** `/search_term`, e.g., `/CRITICAL` – press enter to search forward through the file.
+* **Jump to the end:** press `G` (capital G). This moves directly to the last line of the file.
+* **Quit:** press `q`. This exits less and returns to the shell prompt.
+
+# Q12: Tasks: Copy the error log to the archive folder as error_2025-06-02.log
 
 **Commands:**
-    mkdir -p ~/projects/cyphercore/logs/archive && \
-    cp ~/projects/cyphercore/logs/errors/error.log \
-    ~/projects/cyphercore/logs/archive/error_2025-06-02.log
+mkdir -p ~/projects/cyphercore/logs/archive && \
+cp ~/projects/cyphercore/logs/errors/error.log \
+~/projects/cyphercore/logs/archive/error_2025-06-02.log
 
 **Confirm operations with commands:**
-    tree ~/projects/cyphercore/logs or ls -l ~/projects/cyphercore/logs/archive
-    cat ~/projects/cyphercore/logs/archive/error_2025-06-02.log
+`tree ~/projects/cyphercore/logs or ls -l ~/projects/cyphercore/logs/archive`
+`cat ~/projects/cyphercore/logs/archive/error_2025-06-02.log`
 
 <img width="940" height="846" alt="image" src="https://github.com/user-attachments/assets/ae3b84cf-23fc-49b4-a9b0-38b8edab83e8" />
 
@@ -538,34 +551,37 @@ For troubleshooting recent events, I might first use: **tail -n 50 [filename]**,
 
 **Rename the access log to access_2025-06-02.log**
 **Command:**
-   mv ~/projects/cyphercore/logs/access/access.log \
-   ~/projects/cyphercore/logs/access/access_2025-06-02.log
-Confirm operation: tree ~/projects/cyphercore or ls -l ~/projects/cyphercore/logs/access
+   `mv ~/projects/cyphercore/logs/access/access.log \
+   ~/projects/cyphercore/logs/access/access_2025-06-02.log`
+
+Confirm operation: `tree ~/projects/cyphercore` or `ls -l ~/projects/cyphercore/logs/access`
 
 <img width="940" height="527" alt="image" src="https://github.com/user-attachments/assets/2cbcdf4a-5ba0-41e5-b36b-9e09fbb768e7" />
+---
 
 **What is the fundamental difference between the two commands used?**
 
-The two commands were: **cp** and **mv**
+The two commands were: `cp` and `mv`
 **cp (copy):** creates a new file with the same contents as the original.
 After copying:
-    •	Original file remains unchanged.
-    •	New file exists as a separate file.
+    *	Original file remains unchanged.
+    *	New file exists as a separate file.
 **mv (move/rename):** changes a file's location or name.
 After moving/renaming:
-    •	The original filename is removed.
-    •	The file exists only under the new name.
+    *	The original filename is removed.
+    *	The file exists only under the new name.
 
-**After renaming, does the original filename still exist?**
+### After renaming, does the original filename still exist?**
 No. The original name no longer exists as the filename changed from access.log to access_2025-06-02.log
 **How can you verify this?**
-Command to use: _ls -l ~/projects/cyphercore/logs/access_
+Command to use: `ls -l ~/projects/cyphercore/logs/access`
 **If the rename succeeded:**
-    •	access_2025-06-02.log appears.
-    •	access.log does not appear.
+    *	access_2025-06-02.log appears.
+    *	access.log does not appear.
 
 <img width="940" height="193" alt="image" src="https://github.com/user-attachments/assets/53487d17-7bd7-4a76-9337-37e2f9749118" />
 
+---
 **Does copying a large file duplicate all data on disk immediately?**
 
 Usually, yes. A traditional cp operation creates a second copy of the file's data on disk. If a 10 GB file is copied, approximately another 10 GB of storage is required.
@@ -573,30 +589,32 @@ However, some modern file systems support optimizations such as Copy-on-Write (C
 
 **Why does this matter?**
 For large log files:
-    •	mv is usually very fast because it often only updates directory metadata.
-    •	cp may take significantly longer because file contents must be duplicated.
+    *	mv is usually very fast because it often only updates directory metadata.
+    *	cp may take significantly longer because file contents must be duplicated.
 This is an important consideration when handling large logs, backups, and archives on production systems.
 
 **Q13: Task: Create an empty directory reports/temp_drafts**
 
-Command: mkdir ~/projects/cyphercore/reports/temp_drafts
-Confirm operation: ls -l ~/projects/cyphercore/reports
+Command: `mkdir ~/projects/cyphercore/reports/temp_drafts`
+Confirm operation: `ls -l ~/projects/cyphercore/reports`
 
 <img width="940" height="535" alt="image" src="https://github.com/user-attachments/assets/1ea2706b-be0c-4f33-91db-799a756c7d93" />
 
 <img width="940" height="161" alt="image" src="https://github.com/user-attachments/assets/45af5ade-1118-4aab-b1af-4db69b117f61" />
 
 **Remove it using the command designed for empty directories**
-Command: rmdir ~/projects/cyphercore/reports/temp_drafts
-Confirm operation: tree ~/projects/cyphercore
+Command: `rmdir ~/projects/cyphercore/reports/temp_drafts`
+Confirm operation: `tree ~/projects/cyphercore`
 
 <img width="940" height="195" alt="image" src="https://github.com/user-attachments/assets/db6d305f-8a0a-476e-a593-88602176e572" />>
 
 **Attempt to remove the entire logs/ directory using that same command**
-Command: _rmdir ~/projects/cyphercore/logs_
+Command: `rmdir ~/projects/cyphercore/logs`
 The command failed to remove the directory.
 
 <img width="940" height="69" alt="image" src="https://github.com/user-attachments/assets/f3a018b7-8ff5-4a35-90db-7833ff568b0c" />
+
+---
 
 **What happened when you tried to remove logs/? Why?**
 
@@ -609,28 +627,29 @@ This happened because rmdir can only remove empty directories. The logs director
 **What is the difference between rmdir and rm -r?**
 
 Command **rmdir**:
-    •	Removes only empty directories.
-    •	Refuses to remove directories that contain files or subdirectories.
-    •	Safer because it prevents accidental deletion of data.
+    *	Removes only empty directories.
+    *	Refuses to remove directories that contain files or subdirectories.
+    *	Safer because it prevents accidental deletion of data.
 Command **rm -r**: rm -r ~/projects/cyphercore/logs
-    •	Removes directories recursively.
-    •	Deletes the entire logs directory and everything inside it, including files and subdirectories.
+    *	Removes directories recursively.
+    *	Deletes the entire logs directory and everything inside it, including files and subdirectories.
 
 **What makes rm -rf dangerous?**
 The command **rm -rf** combines:
-    •	-r = recursive deletion
-    •	-f = force deletion without confirmation
+    *	`-r` = recursive deletion
+    *	`-f` = force deletion without confirmation
 
 This means Linux will attempt to delete everything specified without asking for confirmation and without stopping for many common warnings.
 If the wrong path is entered, important files, applications, logs, or even an entire system can be deleted.
+---
 
 **What rule should every engineer follow before running rm -rf?**
 Always verify the exact path before pressing Enter.
 A common safety practice is:
-    • Run pwd to confirm your current directory.
-    • Run ls to verify what will be affected.
-    • Carefully review the command.
-    • Only then execute rm -rf.
+    * Run pwd to confirm your current directory.
+    * Run ls to verify what will be affected.
+    * Carefully review the command.
+    * Only then execute rm -rf.
 Many engineers follow the rule: "Read the command twice, run it once."
 This helps prevent accidental deletion of critical data on production systems.
 
