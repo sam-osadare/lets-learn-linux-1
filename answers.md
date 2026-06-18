@@ -843,13 +843,14 @@ These failures can be difficult to debug because the symlink itself still exists
 
 No guessing:
 
-**Property**	                              **Hard Link**    **Soft Link**
-Shares inode with original?	                      Yes	             -
-Works across different file systems?	           -	            Yes
-Survives deletion of the original?	              Yes	             -
-Can link to a directory?	                       -	            Yes
-Shows as l in ls -la?	                           -	            Yes
-Detectable by matching inodes in ls -li?	      Yes	             -
+| Property | Hard Link | Soft Link |
+| :--- | :--- | :--- |
+| Shares inode with original? | Yes | No |
+| Works across different file-systems? | No | Yes |
+| Survives deletion of original? | Yes | No |
+| Can link to a directory? | No | Yes |
+| Shows as l in ls -la? | No | Yes |
+| Detectable by matching inodes in ls -li? | Yes | No |
 
 **After the table: one real-server use case for a hard link and one for a soft link in a DevSecOps context.**
 
@@ -911,10 +912,12 @@ to reports/stderr_output.txt because standard error (stream 2) was redirected wi
 
 **Name all three streams, their numbers, and what each carries.**
 
-**Stream**	        **Number**	      **Purpose**
-Standard Input	     	0	      		Data read by a command
-Standard Output	        1	      		Normal command output
-Standard Error	        2	      		Error and diagnostic messages
+| Stream | Number | Purpose |
+| :--- | :--- | :--- |
+| Standard Input | 0 | Data read by a command |
+| Standard Output | 1 | Normal command output |
+| Standard Error | 2 | Error and diagnostic messages |
+
 
 ### What does 2> mean specifically?
 
