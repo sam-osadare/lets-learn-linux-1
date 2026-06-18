@@ -950,9 +950,11 @@ This records both normal messages and errors in a single deployment log while st
 ## Q20: Task: Write the following report into reports/weekly_report.txt using a heredoc — in one operation:
 
 ==========================================================
+
 WEEKLY SECURITY REPORT — CypherCore Systems
 Week Ending: 2025-06-06
 Prepared By: Osad
+
 ===========================================================
 
 SUMMARY:
@@ -963,6 +965,7 @@ Failover to secondary DB executed successfully.
 				
 RECOMMENDED ACTION:
 Review DB connection pool settings before the next deployment.
+
 =============================================================
 
 **Run command to write the text:** `cat > ~/projects/cyphercore/reports/weekly_report.txt \ or cat << EOF > ~/projects/cyphercore/reports/weekly_report.txt \
