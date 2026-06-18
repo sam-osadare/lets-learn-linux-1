@@ -347,11 +347,14 @@ Output command: `cat ~/projects/cyphercore/logs/access/access.log`
 
 **Why is confusing `>` and `>>` dangerous in production log rotation scripts?**
 
-In production systems, logs are critical for debugging and auditing. Accidentally using `>` instead of `>>` can:
-	* Erase active logs containing important incident data
-	* Remove evidence needed for security investigations
-	* Break monitoring and alerting systems that depend on log history
-    * Cause loss of compliance/audit records
+In production systems, logs are critical for debugging and auditing. 
+Accidentally using `>` instead of `>>` can:
+
+	*	Erase active logs containing important incident data
+	*	Remove evidence needed for security investigations
+	* 	Break monitoring and alerting systems that depend on log history
+    * 	Cause loss of compliance/audit records
+	
 In log rotation scripts, this mistake is especially dangerous because logs are often automatically managed. One wrong redirect operator can wipe out real-time system history without any warning.
 
 ---
@@ -370,10 +373,11 @@ In log rotation scripts, this mistake is especially dangerous because logs are o
 They show the same data but in the opposite order.
 
 ### In a real incident (80,000 lines), which do you reach for first?
+
 In a real incident, I would reach for the bottom of the file first using tools like `tac` or `tail`, because:
-* The most recent errors are at the bottom
-* Incidents are usually caused by the latest changes or events
-* It reduces time spent scanning irrelevant historical logs
+* 	The most recent errors are at the bottom
+* 	Incidents are usually caused by the latest changes or events
+* 	It reduces time spent scanning irrelevant historical logs
 
 Typically, start with:
 `tail -n 50 logfile`
