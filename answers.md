@@ -393,7 +393,8 @@ Logs grow over time, so reading everything is inefficient. Tools like `tail` and
 ---
 
 9:42 AM. Abena: "Now the error log — four lines. Don't use echo four times. Write it the way you'd write it in a script."  
-* She gives Kofi the entries:  
+
+She gives Kofi the entries:  
 
 2025-06-02 08:15:10 ERROR    Database connection timeout — retrying (attempt 1/3)
 2025-06-02 08:15:13 ERROR    Database connection timeout — retrying (attempt 2/3)
