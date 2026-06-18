@@ -258,9 +258,11 @@ Both commands display directory contents recursively, but they do it differently
 **Example difference:**
 
 **tree output:**
+
 ![image](https://github.com/user-attachments/assets/1bf1deed-7411-4fea-9ee2-d6f56ec87a77)
 
 **ls -R output:**
+
 ![image](https://github.com/user-attachments/assets/27ed3687-574b-4c50-9868-a63e9562a677)
 
 ### When would a DevSecOps engineer run tree on a live server?
