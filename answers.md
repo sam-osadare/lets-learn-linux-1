@@ -294,9 +294,9 @@ Abena: "Put those into the access log. One at a time. Do not overwrite the file.
 
 **Each command is to be run separately:**
 
-* `echo "2025-06-02 08:14:33 INFO Application started successfully" >> ~/projects/cyphercore/logs/access/access.log`
-* `echo "2025-06-02 08:14:55 WARN High memory usage detected: 87%" >> ~/projects/cyphercore/logs/access/access.log`
-* `echo "2025-06-02 08:15:10 ERROR Database connection timeout — retrying (attempt 1/3)" >> ~/projects/cyphercore/logs/access/access.log`
+*	`echo "2025-06-02 08:14:33 INFO Application started successfully" >> ~/projects/cyphercore/logs/access/access.log`
+*	`echo "2025-06-02 08:14:55 WARN High memory usage detected: 87%" >> ~/projects/cyphercore/logs/access/access.log`
+*	`echo "2025-06-02 08:15:10 ERROR Database connection timeout — retrying (attempt 1/3)" >> ~/projects/cyphercore/logs/access/access.log`
 
 **Command for reading back to confirm the operation:**
 `cat ~/projects/cyphercore/logs/access/access.log`
@@ -305,11 +305,12 @@ Abena: "Put those into the access log. One at a time. Do not overwrite the file.
 
 **What is the difference between `>` and `>>`?**
 
-    *	> redirects output to a file and overwrites the file completely
-    *	>> redirects output to a file and appends to the existing content
+    > redirects output to a file and overwrites the file completely
+    >> redirects output to a file and appends to the existing content
+
 **So:**
-    *	`>` = destructive overwrite
-    *	`>>` = safe append
+    `>` = destructive overwrite
+    `>>` = safe append
 
 **Prove it:**
 **access.log** file (~/projects/cyphercore/logs/access/access.log) contains information/data in the image below:
@@ -320,7 +321,7 @@ Now overwrite it – access.log by adding `>` to the command:
 
 **Now overwrite it – access.log by adding `>` the command:**
 
-* `echo "Testing > function/power" > ~/projects/cyphercore/logs/access/access.log`
+`echo "Testing > function/power" > ~/projects/cyphercore/logs/access/access.log`
 
 **Confirm the output of the operation using cat command:**
 
@@ -335,7 +336,9 @@ Only the newly added text – “Testing > function/power” remains in the acce
 To restore, you must re-add the missing log lines manually or from backup:
 
 `echo "2025-06-02 08:14:33 INFO  Application started successfully" >> ~/projects/cyphercore/logs/access/access.log`
+
 `echo "2025-06-02 08:14:55 WARN  High memory usage detected: 87%" >> ~/projects/cyphercore/logs/access/access.log`
+
 `echo "2025-06-02 08:15:10 ERROR Database connection timeout — retrying (attempt 1/3)" >> ~/projects/cyphercore/logs/access/access.log`
 
 Output command: `cat ~/projects/cyphercore/logs/access/access.log`
