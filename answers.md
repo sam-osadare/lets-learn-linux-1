@@ -5,38 +5,38 @@ This repository contains my Linux assignment/lab-1 completed as part of the Paro
 
 ## Tasks Completed
 
-**Q1: Print your current directory, your username, and full OS and kernel details — three separate commands.**
+## Q1: Print your current directory, your username, and full OS and kernel details — three separate commands.
 
 ![image](https://github.com/user-attachments/assets/855df528-e487-4722-a6d0-a6835d66b72e)
 
 ### What does each command tell you? Why does a DevSecOps engineer run these three things first when SSHing into an unknown server — especially regarding kernel CVEs?
 
-#### Commands:
+**Commands:**
+
 - **pwd:** It displays my exact/current path or directory.
 - **whoami:** It displays the current user. This helps to ascertain the current user’s privilege level.
 - **hostnamectl:** It provides the details of the operating system – OS, Kernel, and architecture.
 
-#### DevSecOps Engineer:
+**DevSecOps Engineer:**
 - **pwd:** It helps identify the right directory before committing any system modifications. This prevents wrong modifications of sensitive files like `/etc` or root.
 - **whoami:** To determine the access/privilege level of the current user. This way, I can determine if I need root access or not before committing any changes to the system.
 - **hostnamectl:** By displaying the system’s OS, Kernel, and architecture information, I can easily, as a DevSecOps Engineer, identify any malicious system modifications and attack surface or known vulnerabilities.
 
 ---
 
-**Q2: List the contents of the root directory — the very top of the Linux filesystem. Pick five directories from the output and explain each one's purpose. What is the Filesystem Hierarchy Standard (FHS) and why does it exist? What breaks on a shared production server without it?**
+## Q2: List the contents of the root directory — the very top of the Linux filesystem. Pick five directories from the output and explain each one's purpose. What is the Filesystem Hierarchy Standard (FHS) and why does it exist? What breaks on a shared production server without it?
 
 <img width="940" height="274" alt="image" src="https://github.com/user-attachments/assets/27c0c2d7-47ce-4f4d-9f16-cfd12d5d5869" />
 
 **Command:** `ls -a /`
 
 **Five directories and their purposes:**
+
 * **/root** – it is the home directory for the root user. It is the highest directory in the Filesystem Hierarchy Standard (FHS).
 * **/home** – it is the user’s personal directory. It represents the individual user’s directory in the system.
 * **/etc** – this directory contains all the configuration files, such as shadow, passwd, and firewall settings or rules.
 * **/tmp** – it is a directory for temporary files like `ssh-XXXXXX/`, `apt-extract-dummy`, `exploit.sh`, etc.
 * **/bin** – it is a directory that contains executable programs/commands (standard users and admins) that are essential for the system booting and running in a single-user mode.
-
----
 
 ### What is the Filesystem Hierarchy Standard (FHS) and why does it exist?
 
@@ -44,12 +44,11 @@ This repository contains my Linux assignment/lab-1 completed as part of the Paro
 
 FHS was developed and adopted as the standard for Linux to eradicate the menace of dumping files anywhere as deemed necessary by the creators before the mid-1990s. 
 
-#### FHS addresses the three benefits:
+**FHS addresses the three benefits:**
+
 * **Predictability**: With FHS, hardcoding file paths into their respective applications, like pointing a service to `/etc` for a setting/file, by the developers is made possible, while assuring that it will work on all Linux distributions.
 * **Interoperability**: FHS protects the native operating system by addressing any breaking or overwriting concerns and problems during the third-party software installation on any compliant system.
 * **Physical and Logical Isolation**: FHS aims to strengthen the effective demarcation, isolation, and categorization of the filesystem. It helps with the separation of files from one another, such as the user’s file in `/home` from system binaries in `/usr`, and the mounting of directories on the hard drives or partitions for optimised different workloads.
-
----
 
 ### What breaks on a shared production server without it?
 
@@ -60,7 +59,7 @@ A production server will in no doubt break if one the followings occur;
 
 ---
 
-**Q3: List your home directory twice – once the default way, then again revealing hidden files with full details (permissions, ownership, size)**
+## Q3: List your home directory twice – once the default way, then again revealing hidden files with full details (permissions, ownership, size)
 
 **Since I am currently in my home directory, the following commands are used directly:**
 * To list in a default way – no permissions, hidden files, etc included: `ls`
@@ -68,13 +67,13 @@ A production server will in no doubt break if one the followings occur;
 
 ![image](https://github.com/user-attachments/assets/ef416b6b-d0ed-4c30-9925-fb4e65d9a422)
 
-#### What is different between the two outputs? What makes a file hidden in Linux — is it a special type? Name two real hidden files found in a home directory and explain what they do.
+### What is different between the two outputs? What makes a file hidden in Linux — is it a special type? Name two real hidden files found in a home directory and explain what they do.
 
 **Difference between the two outputs:**
 * `ls`: displays only the visible files and directories in the home directory.
 * `ls -al`: while `ls -l` displays all files, directories, and other details, `-a` includes all the hidden ones – special entries **`.`** (current directory) and **`..`** (parent directory), as well as `.profile`, `.ssh`, `.local` as shown in the picture. 
 
-The command also shows detailed information such as:
+### The command also shows detailed information such as:
 * File or directory name
 * File permissions
 * Number of links
@@ -92,7 +91,7 @@ A file is hidden in Linux when its name begins with a dot (**`.`**). Hidden file
 
 ![image](https://github.com/user-attachments/assets/86819dfa-eb25-4912-a133-ae56feea38b3)
 
-**Q4: Create the entire structure above in a single command — including all nested subdirectories. Then display the full tree to verify.**
+## Q4: Create the entire structure above in a single command — including all nested subdirectories. Then display the full tree to verify.
 
 ![image](https://github.com/user-attachments/assets/7243624b-5774-4ae0-9182-82fd2f0d2390)
 
@@ -103,8 +102,6 @@ The **-p** flag tells mkdir to create parent directories as needed. If intermedi
 
 **Example:** `mkdir -p ~/projects/cyphercore/logs/access`
 - This creates all missing directories in the path at once.
-
----
 
 ### What is brace expansion and how did it help here?
 
@@ -119,7 +116,6 @@ In this task, brace expansion allowed me to create several directories with one 
 
 Instead of typing separate commands for each directory, Bash expanded the pattern into all the required paths automatically.
 
----
 
 ### Could you have done this without it — and would you want to?
 
@@ -131,7 +127,7 @@ Yes. I could have created the directories individually, for example:
 `mkdir -p ~/projects/cyphercore/logs/archive`
 However, using brace expansion is much faster, requires less typing, and reduces the risk of errors. Creating multiple related directories is generally the preferred approach.
 
-**Q5: Task: Create these five empty files in a single command: configs/app.conf, configs/db.conf, logs/access/access.log, logs/errors/error.log, reports/weekly_report.txt**
+## Q5: Task: Create these five empty files in a single command: configs/app.conf, configs/db.conf, logs/access/access.log, logs/errors/error.log, reports/weekly_report.txt
 
 **Command:** `touch ~/projects/cyphercore/configs/{app.conf, db.conf} ~/projects/cyphercore/logs/{access/access.log, errors/error.log} ~/projects/cyphercore/reports/weekly_report.txt`
 
@@ -193,7 +189,7 @@ Because `touch` is non-destructive, it is commonly used in automation and system
 
 ---
 
-**Q6: Task: List ~/projects/cyphercore/configs/ in long format with human-readable file sizes.**
+## Q6: Task: List ~/projects/cyphercore/configs/ in long format with human-readable file sizes.
 
 **Command to run:** `ls -lh ~/projects/cyphercore/configs`
 * `-l` = long format
@@ -241,7 +237,9 @@ The **-h** flag makes file sizes human-readable.
 1.0M
 This makes file sizes easier for humans to understand, especially when working with large files and directories.
 
-**Q7: Task: Display the full tree of ~/projects/cyphercore again**. 
+---
+
+## Q7: Task: Display the full tree of ~/projects/cyphercore again.
 
 ![image](https://github.com/user-attachments/assets/7045794b-8431-409a-8c7c-026c5ab498fd)
 
@@ -290,7 +288,7 @@ Abena: "Put those into the access log. One at a time. Do not overwrite the file.
 
 ---
 
-**Q8: Task: Write each of the three log lines into logs/access/access.log using echo, appending each one. Read the file back to confirm all three lines exist.**
+## Q8: Task: Write each of the three log lines into logs/access/access.log using echo, appending each one. Read the file back to confirm all three lines exist.
 
 **Each command is to be run separately:**
 
@@ -303,7 +301,7 @@ Abena: "Put those into the access log. One at a time. Do not overwrite the file.
 
 <img width="940" height="251" alt="image" src="https://github.com/user-attachments/assets/f0290c37-e26b-4f1d-87bb-eb4b6171be5e" />
 
-**What is the difference between `>` and `>>`?**
+### What is the difference between `>` and `>>`?
 
     > redirects output to a file and overwrites the file completely
     >> redirects output to a file and appends to the existing content
@@ -345,7 +343,7 @@ Output command: `cat ~/projects/cyphercore/logs/access/access.log`
 
 <img width="940" height="214" alt="image" src="https://github.com/user-attachments/assets/bf919fdb-ce22-482b-a060-e719636ed1af" />
 
-**Why is confusing `>` and `>>` dangerous in production log rotation scripts?**
+### Why is confusing `>` and `>>` dangerous in production log rotation scripts?
 
 In production systems, logs are critical for debugging and auditing. 
 Accidentally using `>` instead of `>>` can:
@@ -362,7 +360,7 @@ In log rotation scripts, this mistake is especially dangerous because logs are o
 
 ---
 
-**Q9: Task: Display the access log using two different reading commands — one from top to bottom, one from bottom to top.**
+## Q9: Task: Display the access log using two different reading commands — one from top to bottom, one from bottom to top.
 
 * **Command for “from the top”:** `cat ~/projects/cyphercore/logs/access/access.log`
 * **Command for “from the bottom”:** `tac ~/projects/cyphercore/logs/access/access.log`
@@ -389,7 +387,7 @@ Typically, start with:
 The command is:
 `tail -n 10 logfile` *(Or simply `tail logfile`, which defaults to 10 lines.)*
 
-### Why this matters in debugging
+### Why this matters in debugging?
 Logs grow over time, so reading everything is inefficient. Tools like `tail` and `tac` help engineers quickly focus on the most recent and most relevant system events during troubleshooting.
 
 ---
@@ -404,7 +402,7 @@ Logs grow over time, so reading everything is inefficient. Tools like `tail` and
 
 ---
 
-# Q10: Task: Use heredoc notation to append all four lines into logs/errors/error.log in one operation. Read it back and 📸 screenshot.
+## Q10: Task: Use heredoc notation to append all four lines into logs/errors/error.log in one operation. Read it back.
 
 **Command run operation:** 
 `cat <<  'EOF'  > ~/projects/cyphercore/logs/errors/error.log
@@ -421,8 +419,7 @@ Logs grow over time, so reading everything is inefficient. Tools like `tail` and
 **Read it back**: `tac ~/projects/cyphercore/logs/errors/error.log`
 
 <img width="940" height="125" alt="image" src="https://github.com/user-attachments/assets/9f62e506-006a-4b0b-b140-9de8707ae204" />
-
-**What is a heredoc, and what does it solve over multiple echo commands?**
+### What is a heredoc, and what does it solve over multiple echo commands?
 
 A heredoc ("here document") is a shell feature that allows multiple lines of text to be provided as input to a command.
 Example:
@@ -438,7 +435,7 @@ Example:
       *	Preserves formatting exactly
       •	`Is`is commonly used in scripts to generate configuration files, logs, and templates
 
-**What is the difference between 'EOF' (quoted) and EOF (unquoted)?**
+### What is the difference between 'EOF' (quoted) and EOF (unquoted)?
 When the delimiter is **unquoted**:
       `cat << EOF
       Database name: $DBNAME
@@ -466,7 +463,7 @@ Quoted delimiters are safer when exact text must be preserved.
 
 <img width="940" height="561" alt="image" src="https://github.com/user-attachments/assets/ba7b0f89-bb50-4ee2-8ecb-4bbcbefa269a" />
 
-**Why might someone on a compromised server prefer heredoc over opening nano or vim?**
+### Why might someone on a compromised server prefer heredoc over opening nano or vim?
 
 A heredoc can create or modify files directly from the shell without launching an interactive editor.
 **Example:**
@@ -478,7 +475,7 @@ A heredoc can create or modify files directly from the shell without launching a
       *	Works over unstable SSH connections
       *	Can be pasted directly into scripts or automation
       
-**What forensic traces does each method leave?**
+### What forensic traces does each method leave?
 **Heredoc:**
 Typically leaves:
     •	Shell history entries (unless history is disabled)
@@ -494,7 +491,7 @@ From a forensic perspective, interactive editors often leave more artifacts than
 
 ---
 
-# Q11: Task: Open the error log using two different pager commands. Navigate and quit each one.
+## Q11: Task: Open the error log using two different pager commands. Navigate and quit each one.
 
 **more command:** press the Enter key to navigate line by line; Space key to navigate page by page; PgDn/PgUp to navigate page down/page up. q key to quit.
 
@@ -545,7 +542,7 @@ For troubleshooting recent events, I might first use: **tail -n 50 [filename]**,
 
 ---
 
-# Q12: Tasks: Copy the error log to the archive folder as error_2025-06-02.log
+## Q12: Tasks: Copy the error log to the archive folder as error_2025-06-02.log
 
 **Commands:**
 mkdir -p ~/projects/cyphercore/logs/archive && \
@@ -569,7 +566,7 @@ Confirm operation: `tree ~/projects/cyphercore` or `ls -l ~/projects/cyphercore/
 
 <img width="940" height="527" alt="image" src="https://github.com/user-attachments/assets/2cbcdf4a-5ba0-41e5-b36b-9e09fbb768e7" />
 
-**What is the fundamental difference between the two commands used?**
+### What is the fundamental difference between the two commands used?
 
 The two commands were: `cp` and `mv`
 **cp (copy):** creates a new file with the same contents as the original.
@@ -592,12 +589,12 @@ Command to use: `ls -l ~/projects/cyphercore/logs/access`
 
 <img width="940" height="193" alt="image" src="https://github.com/user-attachments/assets/53487d17-7bd7-4a76-9337-37e2f9749118" />
 
-**Does copying a large file duplicate all data on disk immediately?**
+### Does copying a large file duplicate all data on disk immediately?
 
 Usually, yes. A traditional cp operation creates a second copy of the file's data on disk. If a 10 GB file is copied, approximately another 10 GB of storage is required.
 However, some modern file systems support optimizations such as Copy-on-Write (CoW), Reflinks, and Snapshots. On such systems, the data may not be physically duplicated immediately. Instead, the filesystem initially shares the data blocks and only creates separate copies when changes occur.
 
-**Why does this matter?**
+### Why does this matter?
 For large log files:
     *	mv is usually very fast because it often only updates directory metadata.
     *	cp may take significantly longer because file contents must be duplicated.
@@ -605,7 +602,7 @@ This is an important consideration when handling large logs, backups, and archiv
 
 ---
 
-**Q13: Task: Create an empty directory reports/temp_drafts**
+## Q13: Task: Create an empty directory reports/temp_drafts
 
 Command: `mkdir ~/projects/cyphercore/reports/temp_drafts`
 Confirm operation: `ls -l ~/projects/cyphercore/reports`
@@ -626,7 +623,7 @@ The command failed to remove the directory.
 
 <img width="940" height="69" alt="image" src="https://github.com/user-attachments/assets/f3a018b7-8ff5-4a35-90db-7833ff568b0c" />
 
-**What happened when you tried to remove logs/? Why?**
+### What happened when you tried to remove logs/? Why?
 
 The command failed and displayed an error stating that the directory was not empty.
 
@@ -634,7 +631,7 @@ The command failed and displayed an error stating that the directory was not emp
 
 This happened because rmdir can only remove empty directories. The logs directory contained subdirectories and log files, so the system prevented it from being removed.
 
-**What is the difference between rmdir and rm -r?**
+### What is the difference between rmdir and rm -r?
 
 Command **rmdir**:
     *	Removes only empty directories.
@@ -644,7 +641,7 @@ Command **rm -r**: rm -r ~/projects/cyphercore/logs
     *	Removes directories recursively.
     *	Deletes the entire logs directory and everything inside it, including files and subdirectories.
 
-**What makes rm -rf dangerous?**
+### What makes rm -rf dangerous?
 The command **rm -rf** combines:
     *	`-r` = recursive deletion
     *	`-f` = force deletion without confirmation
@@ -652,7 +649,7 @@ The command **rm -rf** combines:
 This means Linux will attempt to delete everything specified without asking for confirmation and without stopping for many common warnings.
 If the wrong path is entered, important files, applications, logs, or even an entire system can be deleted.
 
-**What rule should every engineer follow before running rm -rf?**
+### What rule should every engineer follow before running rm -rf?
 Always verify the exact path before pressing Enter.
 A common safety practice is:
     * Run pwd to confirm your current directory.
@@ -664,7 +661,7 @@ This helps prevent accidental deletion of critical data on production systems.
 
 ---
 
-**Q14: Task: Display the full tree of ~/projects/cyphercore.**
+## Q14: Task: Display the full tree of ~/projects/cyphercore.
 
 **Command:** 
 `tree ~/projects/cyphercore`
@@ -672,6 +669,7 @@ This helps prevent accidental deletion of critical data on production systems.
 <img width="940" height="436" alt="image" src="https://github.com/user-attachments/assets/82f7075d-b59d-4956-a602-fbc7ab23e146" />
 
 ### Does the structure match Abena's original sticky note?
+
 Yes, the core directory structure matches Abena's original design. Throughout the exercises, files were added inside these directories, such as configuration files, log files, archived logs, and reports. The overall directory layout remains consistent with the original structure while now containing realistic project data.
 
 ### Why does a clean, predictable directory structure matter for automation scripts?
@@ -705,11 +703,11 @@ A clean and predictable directory structure improves reliability, automation, se
 
 ---
 
-# Q15: Task: Write three lines into configs/db.conf: 
+## Q15: Task: Write three lines into configs/db.conf: 
    
-	DB_HOST=10.0.0.10
-    DB_PORT=5432
-    DB_NAME=cyphercore_prod
+*	DB_HOST=10.0.0.10
+*	DB_PORT=5432
+*	DB_NAME=cyphercore_prod
 
 **Command:** 
     `cat << ‘EOF’ > ~/projects/cyphercore/configs/db.conf ¬\
@@ -733,19 +731,21 @@ A clean and predictable directory structure improves reliability, automation, se
 
 💡 Hint: The flag that shows inode numbers with ls -l is -i.
 
-**What do you notice about the inode numbers of both files?**
+### What do you notice about the inode numbers of both files?
 
 Both db.conf and db_hardlink.conf have the same inode number – 396061. This shows that they are hard links pointing to the same underlying file data on disk.
 
-**What does the link count (third column) represent?** 
+### What does the link count (third column) represent?
+
 The link count shows how many directory entries (hard links) point to the same inode. Since two filenames are referring to the same inode, the link count is `2`.
 
-**What is an inode in your own words?**
+### What is an inode in your own words?
+
 An inode is a data structure used by a filesystem to store information about a file, such as its permissions, ownership, size, timestamps, and disk block locations. Filenames are directory entries that point to an inode, and multiple filenames can point to the same inode through hard links.
 
 ---
 
-**Q16: Task: Delete the original db.conf. Then read the hard link file.**
+## Q16: Task: Delete the original db.conf. Then read the hard link file.
 
 <img width="940" height="101" alt="image" src="https://github.com/user-attachments/assets/2f17a1e4-f83b-44c4-8d25-cd73b425f169" />
 
@@ -759,7 +759,7 @@ Yes. The data remains accessible via the hard link even after the original `db.c
 A hard link and the original filename both point to the same inode. The inode contains the file's metadata and pointers to the actual data blocks on disk.
 When `db.conf` was deleted, only one directory entry was removed. The inode and data blocks remained because the hard link still referenced the same inode.
 
-**Check ls -li again — what changed in the link count?** 
+### Check ls -li again — what changed in the link count?
 
 Before deleting `db.conf`, the inode link count was 2 because two directory entries were pointing to the same inode.
 After deleting db.conf, running `ls -li` showed:
@@ -769,18 +769,19 @@ This indicates that one reference was removed, but the inode is still in use.
 
 <img width="940" height="140" alt="image" src="https://github.com/user-attachments/assets/e62de9b9-40f7-4854-832a-4cf20cd0e4da" />
 
-**What would need to happen for the data to be permanently deleted?**
+### What would need to happen for the data to be permanently deleted?
 The data would only be deleted when:
     * All hard links to the inode are removed (link count reaches 0), and
     * No running process still has the file open.
 At that point, the filesystem can free the inode and release the data blocks
 
-**How could an attacker use hard links to hide data on a compromised system?**
+### How could an attacker use hard links to hide data on a compromised system?
+
 An attacker could create hard links to sensitive files and then delete the original filenames. Administrators might believe the files were removed, but the data would still exist through the hidden hard links. This technique can be used to conceal malicious files, maintain persistence, or make forensic investigations more difficult because the data remains accessible until every hard link is removed.
 
 ---
 
-### Q17: Task: Write some content into configs/app.conf
+## Q17: Task: Write some content into configs/app.conf
 
 **Command:** 
 `echo “application_port=8080" > ~/projects/cyphercore/configs/app.conf`
@@ -815,7 +816,7 @@ An attacker could create hard links to sensitive files and then delete the origi
 
 <img width="940" height="82" alt="image" src="https://github.com/user-attachments/assets/3837d608-c0a3-425d-a67a-08b24a6eb8a2" />
 
-**What character in the listing identifies a symbolic link?** 
+### What character in the listing identifies a symbolic link?
 
 <img width="940" height="187" alt="image" src="https://github.com/user-attachments/assets/f595ed52-3844-4b94-b6fb-65116ab7a282" />
 
@@ -825,7 +826,7 @@ The character `l` at the beginning of the permissions field identifies a symboli
 _lrwxrwxrwx 1 sirosaubun sirosaubun..._
 The `l` indicates that the file is a symlink rather than a regular file or directory.
 
-**What happened when you read the broken link — what is this called?**
+### What happened when you read the broken link — what is this called?
 
 After deleting the original app.conf file, attempting to read the symbolic link failed with a "No such file or directory" error because the symlink still pointed to the original path, but the target file no longer existed.
 
@@ -833,12 +834,12 @@ After deleting the original app.conf file, attempting to read the symbolic link 
 
 This is called a dangling symlink or broken symlink.
 
-**Why does a dangling symlink in a deployment pipeline cause failures that are hard to debug at 2 AM?**
+### Why does a dangling symlink in a deployment pipeline cause failures that are hard to debug at 2 AM?
 
 A deployment pipeline may rely on symlinks to point to configuration files, application releases, or shared resources. If the target file is removed, renamed, or moved, the symlink remains but points to a non-existent location. Applications then fail when trying to access the missing resource.
 These failures can be difficult to debug because the symlink itself still exists and may appear correct at first glance. The actual problem is hidden in the missing target, causing unexpected errors that may only appear after deployment or during runtime.
 
-### Q18: Fill in this table from your experiments. 
+## Q18: Fill in this table from your experiments. 
 
 No guessing:
 
@@ -861,7 +862,7 @@ For example, symlinking _/etc/app/config.yaml_ to the latest version in _/opt/de
 
 ---
 
-**Q19: Task: Run a single ls targeting two paths: one that exists (logs/) and one that does not**
+## Q19: Task: Run a single ls targeting two paths: one that exists (logs/) and one that does not
 
 First, create files – ~/projects/cyphercore/reports/stdout_output.txt & ~/projects/cyphercore/reports/stderr_output.txt 
 
@@ -902,7 +903,7 @@ For the reports/stderr_output.txt
 
 💡 Hint: > is shorthand for 1>. Think of 2>&1 as "send stream 2 to wherever stream 1 is going."
 
-**Which content landed where and why?**
+### Which content landed where and why?
 
 The successful output from ls logs/ was written to reports/stdout_output.txt because standard output (stream 1) was redirected with: > reports/stdout_output.txt
 The error message generated by attempting to list the nonexistent path was written
@@ -915,7 +916,7 @@ Standard Input	     	0	      		Data read by a command
 Standard Output	        1	      		Normal command output
 Standard Error	        2	      		Error and diagnostic messages
 
-**What does 2> mean specifically?**
+### What does 2> mean specifically?
 
 **2>** redirects stream 2 (standard error) to a file.
 **Example:** `ls parocyber_dir 2> errors.txt`
@@ -927,14 +928,14 @@ This sends only the error message to errors.txt while leaving standard output un
 
 <img width="940" height="208" alt="image" src="https://github.com/user-attachments/assets/99c0d824-1446-429c-a58d-12772deaafb6" />
 
-**What does “2>&1” do?**
+### What does “2>&1” do?
 
 **2>&1** tells the shell to:
 
 **>** redirects standard error (2) to the same destination currently used by standard output (1).
 After this redirection, both normal output and error output flow through the pipe to ‘cat’.
 
-**Where would you use it in a real deployment script?**
+### Where would you use it in a real deployment script?
 This is commonly used when:
     * Capturing complete logs from a deployment
 	* Sending both output and errors into a logging system
@@ -946,7 +947,7 @@ This records both normal messages and errors in a single deployment log while st
 
 ---
 
-Q20: Task: Write the following report into reports/weekly_report.txt using a heredoc — in one operation:
+## Q20: Task: Write the following report into reports/weekly_report.txt using a heredoc — in one operation:
 
 ==========================================================
 WEEKLY SECURITY REPORT — CypherCore Systems
@@ -975,7 +976,7 @@ Review DB connection pool settings before the next deployment.
 
 <img width="940" height="697" alt="image" src="https://github.com/user-attachments/assets/31e24456-d1f5-4dfb-b83a-4d6a907c6510" />
 
-**Did you quote the delimiter or not — and why does that choice matter?**
+### Did you quote the delimiter or not — and why does that choice matter?
 
 No, I did not quote the delimiter (`EOF`).
 
@@ -993,7 +994,7 @@ If the delimiter is quoted, the contents are treated literally, and no expansion
 
 For this report, quoting did not matter because the text contained no variables or commands that needed expansion.
 
-**Set a variable ANALYST="Your Name". Write two small heredocs — one quoted, one unquoted — both referencing $ANALYST. What is the difference and why?
+### Set a variable ANALYST="Your Name". Write two small heredocs — one quoted, one unquoted — both referencing $ANALYST. What is the difference and why?
 
 **Command:** `ANALYST=Osad`
 
@@ -1022,8 +1023,7 @@ It outputs the variable set up initially – ANALYST=Osad
 It disregards the extension of the variable(ANALYST=Osad) by outputting the exact test – Analyst=$ANALYST
 
 <img width="940" height="124" alt="image" src="https://github.com/user-attachments/assets/e930fe4f-45b6-426d-9117-e33fb15f27bd" />
-
-**What is the difference and why?**
+### What is the difference, and why?**
     *	The unquoted heredoc expands variables before writing output.
     *	The quoted heredoc suppresses expansion and preserves the text exactly as written.
 **Because of that:**    
@@ -1035,7 +1035,7 @@ It disregards the extension of the variable(ANALYST=Osad) by outputting the exac
 
 <img width="940" height="124" alt="image" src="https://github.com/user-attachments/assets/24b4a7d7-1779-49d4-ab3f-d84d0dde03d7" />
 
-**When do you use a quoted heredoc vs unquoted in a real script? Give a concrete example of each.**
+### When do you use a quoted heredoc vs unquoted in a real script? Give a concrete example of each.
 
 **Unquoted heredoc:** 
 
@@ -1079,20 +1079,20 @@ The variable is preserved for execution later rather than expanded when the file
 
 ---
 
-**Q21: Task: Display the final tree of ~/projects/cyphercore.** 
+## Q21: Task: Display the final tree of ~/projects/cyphercore.
 
 **Command:**
 	`tree ~/projects/cyphercore` (alternatively: `find ~/projects/cyphercore | sort`)
 
 <img width="940" height="517" alt="image" src="https://github.com/user-attachments/assets/314a051a-307c-4f36-a1cc-4a772e6c7a6e" />
 
-**Look at everything you built today — the structure, logs, archives, links, report. How does each connect to what a real DevSecOps engineer does daily?**
+### Look at everything you built today — the structure, logs, archives, links, report. How does each connect to what a real DevSecOps engineer does daily?
 
 Looking at everything built today, I can see the importance of the File Hierarchy System – FHS in structuring and connecting files in the system. And how each part connects to real DevSecOps work. The directory structure represents how engineers organize applications, configurations, logs, reports, and deployment assets so that systems remain maintainable and easy to troubleshoot. The logs provide operational visibility and help identify failures or security events. Archives are used for backups, retention, and disaster recovery. Symbolic links help manage shared resources and versioned deployments efficiently. Reports document incidents, findings, and operational status for teams and stakeholders.
 
-**Pick two commands from today that changed how you think about Linux and explain why they matter beyond this bootcamp.**
+### Pick two commands from today that changed how you think about Linux and explain why they matter beyond this bootcamp.
 
-## Two commands that changed how I think about Linux are:
+#### Two commands that changed how I think about Linux are:
 
 1. **Redirection (>, 2>, and 2>&1)**
 
@@ -1105,7 +1105,7 @@ Heredocs showed me that Linux can generate structured files directly from script
 These commands demonstrated that Linux is not just a collection of commands but a system designed for automation, reproducibility, and operational efficiency. Those principles are at the core of modern DevSecOps practices.
 
 
-## Screenshots
+### Screenshots
 Screenshots demonstrating the completed tasks are available in the `screenshots` folder.
 
 ## Author
