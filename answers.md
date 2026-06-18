@@ -25,7 +25,7 @@ This repository contains my Linux assignment/lab-1 completed as part of the Paro
 
 **Q2: List the contents of the root directory — the very top of the Linux filesystem. Pick five directories from the output and explain each one's purpose. What is the Filesystem Hierarchy Standard (FHS) and why does it exist? What breaks on a shared production server without it?**
 
-![image](https://github.com/user-attachments/assets/92dcacd5-3ea3-3ea4-4a76-a604-475c0a1c543c)
+<img width="940" height="274" alt="image" src="https://github.com/user-attachments/assets/27c0c2d7-47ce-4f4d-9f16-cfd12d5d5869" />
 
 **Command:** `ls -a /`
 
@@ -349,6 +349,8 @@ In production systems, logs are critical for debugging and auditing. Accidentall
     * Cause loss of compliance/audit records
 In log rotation scripts, this mistake is especially dangerous because logs are often automatically managed. One wrong redirect operator can wipe out real-time system history without any warning.
 
+---
+
 **Q9: Task: Display the access log using two different reading commands — one from top to bottom, one from bottom to top.**
 
 * **Command for “from the top”:** `cat ~/projects/cyphercore/logs/access/access.log`
@@ -389,6 +391,7 @@ Logs grow over time, so reading everything is inefficient. Tools like `tail` and
 2025-06-02 08:15:16 CRITICAL Triggering failover to secondary DB at 10.0.0.52
 
 ---
+
 # Q10: Task: Use heredoc notation to append all four lines into logs/errors/error.log in one operation. Read it back and 📸 screenshot.
 
 **Command run operation:** 
@@ -477,6 +480,8 @@ Typically leaves:
     *	Additional audit records showing editor execution
 From a forensic perspective, interactive editors often leave more artifacts than a simple heredoc command, although both may still be visible through shell history and system auditing.
 
+---
+
 # Q11: Task: Open the error log using two different pager commands. Navigate and quit each one.
 
 **more command:** press the Enter key to navigate line by line; Space key to navigate page by page; PgDn/PgUp to navigate page down/page up. q key to quit.
@@ -486,8 +491,6 @@ From a forensic perspective, interactive editors often leave more artifacts than
 **less command:**
 
 ![image](https://github.com/user-attachments/assets/a77c9d2a-0b00-43a8-bc24-da460e7e6d61)
-
----
 
 ### Key differences between more and less
 
@@ -508,8 +511,6 @@ Both are pager programs used to read files one screen at a time.
 
 **A useful way to remember it is:** "less is more" because less provides more functionality than more.
 
----
-
 ### Which loads the entire file into memory first?
 
 Generally:
@@ -518,21 +519,19 @@ Generally:
 
 For very large logs, less is the preferred tool.
 
----
-
 ### On a server with 512 MB RAM and a 3 GB log, which do you use?
 
 I would use the **less** command because it can efficiently handle large files without requiring the entire file to be loaded into memory.
 
 For troubleshooting recent events, I might first use: **tail -n 50 [filename]**, and then use the *less* command for deeper investigation.
 
----
-
 ### Three useful keyboard shortcuts for less:
 
 * **Search:** `/search_term`, e.g., `/CRITICAL` – press enter to search forward through the file.
 * **Jump to the end:** press `G` (capital G). This moves directly to the last line of the file.
 * **Quit:** press `q`. This exits less and returns to the shell prompt.
+
+---
 
 # Q12: Tasks: Copy the error log to the archive folder as error_2025-06-02.log
 
@@ -557,7 +556,6 @@ cp ~/projects/cyphercore/logs/errors/error.log \
 Confirm operation: `tree ~/projects/cyphercore` or `ls -l ~/projects/cyphercore/logs/access`
 
 <img width="940" height="527" alt="image" src="https://github.com/user-attachments/assets/2cbcdf4a-5ba0-41e5-b36b-9e09fbb768e7" />
----
 
 **What is the fundamental difference between the two commands used?**
 
@@ -572,6 +570,7 @@ After moving/renaming:
     *	The file exists only under the new name.
 
 ### After renaming, does the original filename still exist?**
+
 No. The original name no longer exists as the filename changed from access.log to access_2025-06-02.log
 **How can you verify this?**
 Command to use: `ls -l ~/projects/cyphercore/logs/access`
@@ -581,7 +580,6 @@ Command to use: `ls -l ~/projects/cyphercore/logs/access`
 
 <img width="940" height="193" alt="image" src="https://github.com/user-attachments/assets/53487d17-7bd7-4a76-9337-37e2f9749118" />
 
----
 **Does copying a large file duplicate all data on disk immediately?**
 
 Usually, yes. A traditional cp operation creates a second copy of the file's data on disk. If a 10 GB file is copied, approximately another 10 GB of storage is required.
@@ -592,6 +590,8 @@ For large log files:
     *	mv is usually very fast because it often only updates directory metadata.
     *	cp may take significantly longer because file contents must be duplicated.
 This is an important consideration when handling large logs, backups, and archives on production systems.
+
+---
 
 **Q13: Task: Create an empty directory reports/temp_drafts**
 
@@ -613,8 +613,6 @@ Command: `rmdir ~/projects/cyphercore/logs`
 The command failed to remove the directory.
 
 <img width="940" height="69" alt="image" src="https://github.com/user-attachments/assets/f3a018b7-8ff5-4a35-90db-7833ff568b0c" />
-
----
 
 **What happened when you tried to remove logs/? Why?**
 
@@ -641,7 +639,6 @@ The command **rm -rf** combines:
 
 This means Linux will attempt to delete everything specified without asking for confirmation and without stopping for many common warnings.
 If the wrong path is entered, important files, applications, logs, or even an entire system can be deleted.
----
 
 **What rule should every engineer follow before running rm -rf?**
 Always verify the exact path before pressing Enter.
@@ -652,6 +649,8 @@ A common safety practice is:
     * Only then execute rm -rf.
 Many engineers follow the rule: "Read the command twice, run it once."
 This helps prevent accidental deletion of critical data on production systems.
+
+---
 
 **Q14: Task: Display the full tree of ~/projects/cyphercore.**
 
@@ -675,6 +674,7 @@ If logs are scattered across different locations, the agent may not collect them
 A consistent structure ensures logs are discovered and processed correctly.
 
 ### Why does it matter for security monitoring tools?
+
 Security monitoring and SIEM platforms depend on known file locations to detect suspicious activity. 
 
 **Examples include:**
@@ -691,10 +691,14 @@ Security monitoring and SIEM platforms depend on known file locations to detect 
 
 A clean and predictable directory structure improves reliability, automation, security visibility, and operational efficiency across the entire system.
 
+---
+
 # Q15: Task: Write three lines into configs/db.conf: 
-    DB_HOST=10.0.0.10
+   
+	DB_HOST=10.0.0.10
     DB_PORT=5432
     DB_NAME=cyphercore_prod
+
 **Command:** 
     `cat << ‘EOF’ > ~/projects/cyphercore/configs/db.conf ¬\
     >DB_HOST=10.0.0.10
@@ -705,6 +709,7 @@ A clean and predictable directory structure improves reliability, automation, se
 <img width="940" height="288" alt="image" src="https://github.com/user-attachments/assets/3fa47105-cf8c-420d-b75f-0674d471bd91" />
 
 **Create a hard link to it in the same directory named db_hardlink.conf**
+
 **Command:** 
     ln ~/projects/cyphercore/configs/db.conf ~/projects/cyphercore/configs/db_hardlink.conf
 
@@ -726,6 +731,8 @@ The link count shows how many directory entries (hard links) point to the same i
 **What is an inode in your own words?**
 An inode is a data structure used by a filesystem to store information about a file, such as its permissions, ownership, size, timestamps, and disk block locations. Filenames are directory entries that point to an inode, and multiple filenames can point to the same inode through hard links.
 
+---
+
 **Q16: Task: Delete the original db.conf. Then read the hard link file.**
 
 <img width="940" height="101" alt="image" src="https://github.com/user-attachments/assets/2f17a1e4-f83b-44c4-8d25-cd73b425f169" />
@@ -735,11 +742,13 @@ An inode is a data structure used by a filesystem to store information about a f
 <img width="940" height="101" alt="image" src="https://github.com/user-attachments/assets/57e53d99-7913-47b9-902c-75e9f37f2f72" />
 
 **Is the data still there? Explain why inodes and link counts are used**. 
+
 Yes. The data remains accessible via the hard link even after the original `db.conf` file was deleted.
 A hard link and the original filename both point to the same inode. The inode contains the file's metadata and pointers to the actual data blocks on disk.
 When `db.conf` was deleted, only one directory entry was removed. The inode and data blocks remained because the hard link still referenced the same inode.
 
 **Check ls -li again — what changed in the link count?** 
+
 Before deleting `db.conf`, the inode link count was 2 because two directory entries were pointing to the same inode.
 After deleting db.conf, running `ls -li` showed:
     * The inode number remained the same.
@@ -757,32 +766,38 @@ At that point, the filesystem can free the inode and release the data blocks
 **How could an attacker use hard links to hide data on a compromised system?**
 An attacker could create hard links to sensitive files and then delete the original filenames. Administrators might believe the files were removed, but the data would still exist through the hidden hard links. This technique can be used to conceal malicious files, maintain persistence, or make forensic investigations more difficult because the data remains accessible until every hard link is removed.
 
-**Q17:** 
-### Task: Write some content into configs/app.conf
+---
+
+### Q17: Task: Write some content into configs/app.conf
+
 **Command:** 
 `echo “application_port=8080" > ~/projects/cyphercore/configs/app.conf`
 
 <img width="940" height="126" alt="image" src="https://github.com/user-attachments/assets/0d51f9e8-d280-4f31-8ba0-7877e149a8ff" />
 
 **Create a symbolic link to it inside ~/projects/cyphercore/ named app_config_link**
+
 **Command:** 
 `ln -s ~/projects/cyphercore/configs/app.conf ~/projects/cyphercore/app_config_link`
 
 <img width="940" height="65" alt="image" src="https://github.com/user-attachments/assets/5714ae0c-0dc0-4f29-9de1-a182b5a37ad2" />
 
 ### List ~/projects/cyphercore/ showing full details including link targets
+
 **Command:** 
 `ls -l ~/projects/cyphercore`
 
 <img width="940" height="171" alt="image" src="https://github.com/user-attachments/assets/cbda4390-8cce-4527-90ef-cd18aab56ba2" />
 
 ### Delete the original app.conf and try to read the symlink
+
 **Command:** 
 `rm ~/projects/cyphercore/configs/app.conf`
 
 <img width="940" height="187" alt="image" src="https://github.com/user-attachments/assets/bd31d82b-257d-458c-94c5-28c0da03221d" />
 
 **Reading the symlink:**
+
 **Command:** 
 `cat ~/projects/cyphercore/app_config_link`
 
@@ -793,6 +808,7 @@ An attacker could create hard links to sensitive files and then delete the origi
 <img width="940" height="187" alt="image" src="https://github.com/user-attachments/assets/f595ed52-3844-4b94-b6fb-65116ab7a282" />
 
 The character `l` at the beginning of the permissions field identifies a symbolic link. 
+
 **For example:**
 _lrwxrwxrwx 1 sirosaubun sirosaubun..._
 The `l` indicates that the file is a symlink rather than a regular file or directory.
@@ -810,14 +826,14 @@ This is called a dangling symlink or broken symlink.
 A deployment pipeline may rely on symlinks to point to configuration files, application releases, or shared resources. If the target file is removed, renamed, or moved, the symlink remains but points to a non-existent location. Applications then fail when trying to access the missing resource.
 These failures can be difficult to debug because the symlink itself still exists and may appear correct at first glance. The actual problem is hidden in the missing target, causing unexpected errors that may only appear after deployment or during runtime.
 
-**Q18**:
+### Q18: Fill in this table from your experiments. 
 
-**Fill in this table from your experiments. No guessing:**
+No guessing:
 
 **Property**	                              **Hard Link**    **Soft Link**
 Shares inode with original?	                      Yes	             -
-Works across different file-systems?	           -	            Yes
-Survives deletion of original?	                  Yes	             -
+Works across different file systems?	           -	            Yes
+Survives deletion of the original?	              Yes	             -
 Can link to a directory?	                       -	            Yes
 Shows as l in ls -la?	                           -	            Yes
 Detectable by matching inodes in ls -li?	      Yes	             -
@@ -831,37 +847,46 @@ Uses a hard link to maintain multiple references to log files in different direc
 Uses a soft link to point to a shared configuration file across different servers or containers in a DevSecOps pipeline. 
 For example, symlinking _/etc/app/config.yaml_ to the latest version in _/opt/deploy/releases/current/config.yaml_ allows rolling updates without modifying scripts that reference the symlink.
 
+---
+
 **Q19: Task: Run a single ls targeting two paths: one that exists (logs/) and one that does not**
 
 First, create files – ~/projects/cyphercore/reports/stdout_output.txt & ~/projects/cyphercore/reports/stderr_output.txt 
 
 <img width="940" height="377" alt="image" src="https://github.com/user-attachments/assets/38bf5f27-64a3-4919-8b25-798a595f962d" />
 
-Command: 
-_ls ~/projects/cyphercore/logs/ ~/projects/cyphercore/fakefile_path/ > ~/projects/cyphercore/reports/stdout_output.txt 2> ~/projects/cyphercore/reports/stderr_output.txt_
+**Command:**
+
+`ls ~/projects/cyphercore/logs/ ~/projects/cyphercore/fakefile_path/ > ~/projects/cyphercore/reports/stdout_output.txt 2> ~/projects/cyphercore/reports/stderr_output.txt`
 The outcome of the operation will produce an error message because of the non-existent file – ~/projects/cyphercore/fakefile 
 
 <img width="940" height="168" alt="image" src="https://github.com/user-attachments/assets/c36c6a09-fd8b-4aea-8833-d82f3235f644" />
 
 **Redirect normal output to reports/stdout_output.txt**
 
-Command: _ls ~/projects/cyphercore/logs/ > ~/projects/cyphercore/reports/stdout_output.txt _
+**Command:**
+
+`ls ~/projects/cyphercore/logs/ > ~/projects/cyphercore/reports/stdout_output.txt`
 
 <img width="940" height="102" alt="image" src="https://github.com/user-attachments/assets/c108f297-938c-4528-b5b4-7d3fd9505b7e" />
 
 **Redirect error output to reports/stderr_output.txt**
 
-Command: _ls ~/projects/cyphercore/fakefile_path/ 2> ~/projects/cyphercore/reports/stderr_output.txt
-_
+**Command:** 
+
+`ls ~/projects/cyphercore/fakefile_path/ 2> ~/projects/cyphercore/reports/stderr_output.txt`
+
 <img width="940" height="97" alt="image" src="https://github.com/user-attachments/assets/8d13c28e-3204-4160-afa6-4da4a84668ac" />
 
 **Read both files back**
 
 For the reports/stdout_output.txt 
-Command to read back: _tac ~/projects/cyphercore/reports/stdout_output.txt_ 
+
+**Command to read back:** `tac ~/projects/cyphercore/reports/stdout_output.txt`
 
 For the reports/stderr_output.txt
-Command to read back: _tac ~/projects/cyphercore/reports/stderr_output.txt_ 
+
+**Command to read back:** `tac ~/projects/cyphercore/reports/stderr_output.txt`
 
 💡 Hint: > is shorthand for 1>. Think of 2>&1 as "send stream 2 to wherever stream 1 is going."
 
@@ -872,20 +897,21 @@ The error message generated by attempting to list the nonexistent path was writt
 to reports/stderr_output.txt because standard error (stream 2) was redirected with: 2> reports/stderr_output.txt
 
 **Name all three streams, their numbers, and what each carries.**
+
 **Stream**	        **Number**	      **Purpose**
-Standard Input	      0	      Data read by a command
-Standard Output	      1	      Normal command output
-Standard Error	      2	      Error and diagnostic messages
+Standard Input	     	0	      		Data read by a command
+Standard Output	        1	      		Normal command output
+Standard Error	        2	      		Error and diagnostic messages
 
 **What does 2> mean specifically?**
 
 **2>** redirects stream 2 (standard error) to a file.
-Example: _ls parocyber_dir 2> errors.txt_
+**Example:** `ls parocyber_dir 2> errors.txt`
 This sends only the error message to errors.txt while leaving standard output unchanged.
 
 **Run the same command with 2>&1 | cat instead. Explain what 2>&1 does and where you'd use it in a real deployment script.**
 
-Command: _ls ~/projects/cyphercore/logs/ ~/projects/cyphercore/fakefile_path/ 2>&1 | cat_
+**Command:** `ls ~/projects/cyphercore/logs/ ~/projects/cyphercore/fakefile_path/ 2>&1 | cat`
 
 <img width="940" height="208" alt="image" src="https://github.com/user-attachments/assets/99c0d824-1446-429c-a58d-12772deaafb6" />
 
@@ -898,14 +924,18 @@ After this redirection, both normal output and error output flow through the pip
 
 **Where would you use it in a real deployment script?**
 This is commonly used when:
-    • Capturing complete logs from a deployment
-    • Sending both output and errors into a logging system
-    • Piping everything through tools such as ‘tee’, ‘grep’, or log processors
-Example: ./deploy.sh 2>&1 | tee deploy.log
+    * Capturing complete logs from a deployment
+	* Sending both output and errors into a logging system
+    * Piping everything through tools such as ‘tee’, ‘grep’, or log processors
+
+**Example:** `./deploy.sh 2>&1 | tee deploy.log`
 
 This records both normal messages and errors in a single deployment log while still displaying them on the terminal.
 
+---
+
 Q20: Task: Write the following report into reports/weekly_report.txt using a heredoc — in one operation:
+
 ==========================================================
 WEEKLY SECURITY REPORT — CypherCore Systems
 Week Ending: 2025-06-06
@@ -922,108 +952,125 @@ RECOMMENDED ACTION:
 Review DB connection pool settings before the next deployment.
 =============================================================
 
-**Run command to write the text:** _cat > ~/projects/cyphercore/reports/weekly_report.txt \ or cat << EOF > ~/projects/cyphercore/reports/weekly_report.txt \_
+**Run command to write the text:** `cat > ~/projects/cyphercore/reports/weekly_report.txt \ or cat << EOF > ~/projects/cyphercore/reports/weekly_report.txt \
       ============================================
       WEEKLY SECURITY REPORT — CypherCore Systems
       Week Ending: 2025-06-06
       Prepared By: Osad……………..
-      EOF
-**Command to confirm the operation:** _cat ~/projects/cyphercore/reports/weekly_report.txt_
+      EOF`
+	  
+**Command to confirm the operation:** `cat ~/projects/cyphercore/reports/weekly_report.txt`
 
 <img width="940" height="697" alt="image" src="https://github.com/user-attachments/assets/31e24456-d1f5-4dfb-b83a-4d6a907c6510" />
 
 **Did you quote the delimiter or not — and why does that choice matter?**
+
 No, I did not quote the delimiter (`EOF`).
-Example:
-cat <<EOF
-Hello $USER
-EOF
+
+**Example:**
+	`cat <<EOF
+	Hello $USER
+	EOF`
 
 When the delimiter is unquoted, shell expansions occur inside the heredoc:
-    • Variable expansion (`$VAR`)
-    • Command substitution (`$(command)`)
-    • Arithmetic expansion (`$((...))`)
+	*	Variable expansion (`$VAR`)
+	*	Command substitution (`$(command)`)
+    *	Arithmetic expansion (`$((...))`)
 
 If the delimiter is quoted, the contents are treated literally, and no expansion occurs.
 
 For this report, quoting did not matter because the text contained no variables or commands that needed expansion.
 
-**Set a variable ANALYST="Your Name". Write two small heredocs — one quoted, one unquoted — both referencing $ANALYST. 📸 Screenshot both. What is the difference and why?
-Command: ANALYST=Osad**
+**Set a variable ANALYST="Your Name". Write two small heredocs — one quoted, one unquoted — both referencing $ANALYST. What is the difference and why?
+
+**Command:** `ANALYST=Osad`
 
 **Unquoted heredoc:**
-cat <<EOF
-Analyst: $ANALYST
-EOF
+	`cat <<EOF
+	Analyst: $ANALYST
+	EOF`
 
 <img width="940" height="169" alt="image" src="https://github.com/user-attachments/assets/cb7316e2-a103-45b1-8146-a716aeefec77" />
 
 **Quoted heredoc:**
-cat <<'EOF'
-Analyst: $ANALYST
-EOF
+	`cat <<'EOF'
+	Analyst: $ANALYST
+	EOF`
 
 <img width="940" height="124" alt="image" src="https://github.com/user-attachments/assets/1af64f48-21b2-4da7-9145-0b54e977b641" />
 
-**Unquoted:** it outputs the variable set up initially – ANALYST=Osad
+**Unquoted:** 
+
+It outputs the variable set up initially – ANALYST=Osad
 
 <img width="940" height="169" alt="image" src="https://github.com/user-attachments/assets/6fa142e3-69af-4916-8e3a-e0d568517841" />
 
-**Quoted:** it disregards the extension of the variable(ANALYST=Osad) by outputting the exact test – Analyst=$ANALYST
+**Quoted:** 
+
+It disregards the extension of the variable(ANALYST=Osad) by outputting the exact test – Analyst=$ANALYST
 
 <img width="940" height="124" alt="image" src="https://github.com/user-attachments/assets/e930fe4f-45b6-426d-9117-e33fb15f27bd" />
 
 **What is the difference and why?**
-    • The unquoted heredoc expands variables before writing output.
-    • The quoted heredoc suppresses expansion and preserves the text exactly as written.
-Because of that:
-    •	<<EOF → $ANALYST becomes Osad
+    *	The unquoted heredoc expands variables before writing output.
+    *	The quoted heredoc suppresses expansion and preserves the text exactly as written.
+**Because of that:**    
+	*	<<EOF → $ANALYST becomes Osad
    
 <img width="940" height="169" alt="image" src="https://github.com/user-attachments/assets/8878106d-699b-4a5f-bb1f-1a59117322d3" />
 
-    •	<<'EOF' → $ANALYST remains literal text
+    *	<<'EOF' → $ANALYST remains literal text
 
 <img width="940" height="124" alt="image" src="https://github.com/user-attachments/assets/24b4a7d7-1779-49d4-ab3f-d84d0dde03d7" />
 
 **When do you use a quoted heredoc vs unquoted in a real script? Give a concrete example of each.**
 
-**Unquoted heredoc:** It is used when you want variables substituted into generated files.
-Example:
-    HOSTNAME="web01"
+**Unquoted heredoc:** 
+
+It is used when you want variables substituted into generated files.
+
+**Example:**
+    `HOSTNAME="web01"
     cat > app.conf <<EOF
     server_name=$HOSTNAME
     environment=production
-    EOF
+    EOF`
   
 <img width="940" height="222" alt="image" src="https://github.com/user-attachments/assets/8fdf06af-2aae-4c7f-9a9a-2d82855e8dba" />
 
-Confirm the operation by running the command: _cat /home/sirosaubun/app.conf_
-Result:
+Confirm the operation by running the command: `cat /home/sirosaubun/app.conf`
+
+**Result:**
 
 <img width="940" height="119" alt="image" src="https://github.com/user-attachments/assets/902b947e-4255-469a-9aa5-126a83c58d9d" />
 
-**Quoted heredoc:** It is used when generating content that contains shell variables or commands that must remain untouched.
+**Quoted heredoc:** 
 
-Example:
-    cat > backup_template.sh <<'EOF'
-    #!/bin/bash
-    echo "Backing up $HOME"
-    EOF
+It is used when generating content that contains shell variables or commands that must remain untouched.
+
+**Example:**
+    `cat > backup_template.sh <<'EOF'
+	#!/bin/bash
+	echo "Backing up $HOME"
+	EOF`
 
 <img width="940" height="174" alt="image" src="https://github.com/user-attachments/assets/a9d01d49-58c4-48e0-84c7-260ee15d18fb" />
 
-Command to confirm operation: cat /home/sirosaubun/backup_template.sh
-Result:
+**Command to confirm operation:** 
+	`cat /home/sirosaubun/backup_template.sh
+
+**Result:**
 
 <img width="940" height="91" alt="image" src="https://github.com/user-attachments/assets/dfc77b64-09fa-4178-b39f-7188821720f9" />
 
 The variable is preserved for execution later rather than expanded when the file is created.
 
-
+---
 
 **Q21: Task: Display the final tree of ~/projects/cyphercore.** 
 
-Command: _tree ~/projects/cyphercore_ (alternatively: _find ~/projects/cyphercore | sort_)
+**Command:**
+	`tree ~/projects/cyphercore` (alternatively: `find ~/projects/cyphercore | sort`)
 
 <img width="940" height="517" alt="image" src="https://github.com/user-attachments/assets/314a051a-307c-4f36-a1cc-4a772e6c7a6e" />
 
@@ -1033,12 +1080,14 @@ Looking at everything built today, I can see the importance of the File Hierarch
 
 **Pick two commands from today that changed how you think about Linux and explain why they matter beyond this bootcamp.**
 
-Two commands that changed how I think about Linux are:
+## Two commands that changed how I think about Linux are:
 
 1. **Redirection (>, 2>, and 2>&1)**
+
 Before this Lab, I saw command output as something that appeared on the screen. Learning about standard input, standard output, and standard error showed me that Linux treats data streams as separate channels that can be redirected and combined. This matters beyond the bootcamp because production systems generate large amounts of output that must be captured, logged, monitored, and analyzed. Understanding stream redirection is essential for automation, troubleshooting, and building reliable deployment scripts.
 
 2. **Heredocs (<<EOF)**
+
 Heredocs showed me that Linux can generate structured files directly from scripts without opening an editor. This is important because DevSecOps engineers frequently automate the creation of configuration files, deployment manifests, reports, and scripts. Understanding the difference between quoted and unquoted heredocs also taught me how variable expansion works, which is critical when generating templates safely and predictably in automated environments.
 
 These commands demonstrated that Linux is not just a collection of commands but a system designed for automation, reproducibility, and operational efficiency. Those principles are at the core of modern DevSecOps practices.
