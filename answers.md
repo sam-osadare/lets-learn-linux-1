@@ -350,10 +350,10 @@ Output command: `cat ~/projects/cyphercore/logs/access/access.log`
 In production systems, logs are critical for debugging and auditing. 
 Accidentally using `>` instead of `>>` can:
 
-	*	Erase active logs containing important incident data
-	*	Remove evidence needed for security investigations
-	* 	Break monitoring and alerting systems that depend on log history
-    * 	Cause loss of compliance/audit records
+	Erase active logs containing important incident data
+	Remove evidence needed for security investigations
+	Break monitoring and alerting systems that depend on log history
+    Cause loss of compliance/audit records
 	
 In log rotation scripts, this mistake is especially dangerous because logs are often automatically managed. One wrong redirect operator can wipe out real-time system history without any warning.
 
